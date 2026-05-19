@@ -53,11 +53,17 @@ There are sixteen leaders, but we won't say who they are; we'll keep it a secret
 ____________________________________________
 # HSTMTF support forces
 ____________________________________________
+
 ET: Eliminating Tornadoes
+____________________________________________
 AS: Advanced weapons Support
+
 CF: Change the skilled workForce
+____________________________________________
 LS: Long-range Support
+____________________________________________
 SE: Support for Eradication
+____________________________________________
 NF: Never back down, move Forward strongly
 ____________________________________________
 If you're leading the way, we think you're very brave to have dared to read this far
