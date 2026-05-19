@@ -66,6 +66,9 @@ SE: Support for Eradication
 ____________________________________________
 NF: Never back down, move Forward strongly
 ____________________________________________
-If you're leading the way, we think you're very brave to have dared to read this far
+If you've made it this far, you're quite brave, but it's best you leave; we don't have much more to say
 ____________________________________________
-[silent-NF] [filer]
+The above notes are only for those without authority or power; if the person viewing this is an employee within the organization or a higher-ranking person, then they are permitted to do so
+____________________________________________
+[Signed by: Azurit]
+[silent-NF: filer]
