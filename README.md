@@ -57,7 +57,7 @@ ____________________________________________
 ET: Eliminating Tornadoes
 ____________________________________________
 AS: Advanced weapons Support
-
+____________________________________________
 CF: Change the skilled workForce
 ____________________________________________
 LS: Long-range Support
