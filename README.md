@@ -1,4 +1,4 @@
-# Silent-extermination-and-killing [SE.AK]
+# Silent-extermination-and-killing [SE.AK] a detention area [SCP-foundation]
 ____________________________________________
 [SE.AK] > [HSTMTF] > [ET] [AS] [CF] [LS] [SE] 
 ____________________________________________
@@ -59,5 +59,7 @@ CF: Change the skilled workForce
 LS: Long-range Support
 SE: Support for Eradication
 NF: Never back down, move Forward strongly
+____________________________________________
+If you're leading the way, we think you're very brave to have dared to read this far
 ____________________________________________
 [silent-NF] [filer]
