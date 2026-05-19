@@ -30,3 +30,6 @@ ____________________________________________
 ____________________________________________
 [Fake or fraudulent documents are rejected and not allowed to be released to the public in any year, even if they are fake]
 [Anything related to the organization will be eliminated immediately]
+
+# If you are angry and stubborn, please read the following rules and do not violate them Otherwise you will be watched
+____________________________________________
