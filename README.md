@@ -1,31 +1,32 @@
-# Operation-to-assist-in-the-arrest-O.A.A-
+# Silent-extermination-and-killing [SE.AK]
 ____________________________________________
-Hello, if you are reading this, we have already classified you as a Level 4 employee in the organization. Level 4 employees within the organization have the right to view the entity. If you want to see more details, we have a TikTok channel: https://www.tiktok.com/@azurit.o.a.a?_r=1&_t=ZS-96TeaIx2PUA
-_________________________________________
-Operation to assist in the arrest [O.A.A]
+[SE.AK] > [HSTMTF] > [ET] [AS] [CF] [LS] [SE] 
+____________________________________________
 
-AP: Advanced recruitment profile
+[ET: Eliminating tornadoes]
 
-AE: Assisting in the capture of entities
+[AS: Advanced weapons support]
 
-AS: Advanced weapons support
+[CF: Change the skilled workforce]
 
-CF: Change the skilled workforce
+[LS: Long-range support]
 
-LS: Long-range support
+[SE: Support for eradication]
 
-SE: Support for eradication
+[AP: Advanced recruitment profile]
 
-ET: Eliminating tornadoes
+[AE: Assisting in the capture of entities]
 
-C.F.19: Council of Powers
-__________________________________________
-The organization's website is currently experiencing technical difficulties.
-Therefore, it was impossible to access and view it.
-__________________________________________
-But the organization will be back soon; for now, just check this website.
-___________________________________________
-The entities will be listed here, but there are no photos because we don't yet know how to upload them.
-___________________________________________
-Thank you. If you want to see more details, please check out our TikTok account.
-___________________________________________
+[C.F.19: Council of Powers] 
+
+[NF: Never back down, move forward strongly]
+____________________________________________
+[If you do not have the authorization to access this site, we will not be held responsible]
+____________________________________________
+[It can cause cardiac arrest and immediate death; we already told you that]
+____________________________________________
+[If anything goes wrong, that's your fault, not ours]
+[If you are still viewing these things, you are being monitored by us]
+____________________________________________
+[Fake or fraudulent documents are rejected and not allowed to be released to the public in any year, even if they are fake]
+[Anything related to the organization will be eliminated immediately]
