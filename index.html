@@ -772,9 +772,22 @@
     background: #242424;
   }
 
-  .cover-upload-zone:hover {
-    border-color: #333;
-    background: #242424;
+  .nature-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: #aaa;
+    padding: 8px 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .nature-btn.active {
+    background: #fff;
+    border-color: #fff;
+    color: #111;
   }
 
   .cover-upload-zone input[type="file"] {
@@ -1555,6 +1568,13 @@
     <div class="auth-heading">Sign In</div>
     <div class="auth-subheading">Welcome back. Please verify your identity.</div>
 
+    <!-- Saved accounts -->
+    <div id="saved-accounts-wrap" style="display:none;margin-bottom:14px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:8px;">SAVED ACCOUNTS</div>
+      <div id="saved-accounts-list"></div>
+      <div style="height:1px;background:rgba(255,255,255,0.07);margin:14px 0;"></div>
+    </div>
+
     <label class="auth-label">Username</label>
     <input class="auth-input" id="login-user" type="text" placeholder="Enter username" autocomplete="off" oninput="clearLoginError()">
 
@@ -1778,7 +1798,17 @@
 
 </div><!-- /main-app -->
 
-<!-- ===== USER PROFILE PANEL ===== -->
+<!-- ===== SAVE PASSWORD PROMPT ===== -->
+<div id="save-pass-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:900;display:none;align-items:flex-end;justify-content:center;">
+  <div style="width:100%;max-width:600px;background:#1e1e1e;border-radius:20px 20px 0 0;border:1px solid rgba(255,255,255,0.1);border-bottom:none;padding:24px 20px 32px;">
+    <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:6px;">Save this account?</div>
+    <div id="save-pass-sub" style="font-family:'Rajdhani',sans-serif;font-size:13px;color:#aaa;letter-spacing:1px;margin-bottom:20px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="doSavePassword(true)" style="flex:1;background:#fff;border:none;border-radius:8px;color:#111;padding:12px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;">SAVE</button>
+      <button onclick="doSavePassword(false)" style="flex:1;background:rgba(255,255,255,0.08);border:none;border-radius:8px;color:#fff;padding:12px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;">NOT NOW</button>
+    </div>
+  </div>
+</div>
 <div id="user-profile-overlay" onclick="handleUserProfileOverlayClick(event)" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:700;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);">
   <div id="user-profile-panel" style="width:100%;max-width:600px;max-height:88vh;background:#1e1e1e;border-radius:20px 20px 0 0;border:1px solid rgba(255,255,255,0.1);border-bottom:none;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);">
     <div style="width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;"></div>
@@ -1831,6 +1861,10 @@
       <div class="detail-field">
         <div class="detail-field-label">// Date of Capture</div>
         <div class="detail-field-value" id="detail-date"></div>
+      </div>
+      <div class="detail-field" id="detail-appearance-wrap">
+        <div class="detail-field-label">// Nature</div>
+        <div class="detail-field-value" id="detail-nature" style="font-weight:700;letter-spacing:1px;"></div>
       </div>
       <div class="detail-field" id="detail-appearance-wrap">
         <div class="detail-field-label">// Height and appearance</div>
@@ -1898,6 +1932,14 @@
         </select>
       </div>
       <div class="form-group">
+        <label class="form-label">Nature</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="f-nature-wrap">
+          <button type="button" class="nature-btn active" data-val="hostile" onclick="selectNature(this)">⚠ Hostile</button>
+          <button type="button" class="nature-btn" data-val="neutral" onclick="selectNature(this)">◎ Neutral</button>
+          <button type="button" class="nature-btn" data-val="friendly" onclick="selectNature(this)">✦ Friendly</button>
+        </div>
+      </div>
+      <div class="form-group">
         <label class="form-label">Height and appearance</label>
         <textarea class="form-textarea" id="f-appearance" placeholder="Describe height, build, appearance..."></textarea>
       </div>
@@ -1957,7 +1999,13 @@ function doLogin() {
     return;
   }
   currentUser = acc;
-  enterApp();
+  const saved = getSavedAccounts();
+  const alreadySaved = saved.find(s => s.username === u);
+  if (!alreadySaved) {
+    showSavePasswordPrompt(u, p);
+  } else {
+    enterApp();
+  }
 }
 
 function clearLoginError() {
@@ -1980,7 +2028,7 @@ function doRegister() {
   ACCOUNTS.push(acc);
   saveAccounts();
   currentUser = acc;
-  enterApp();
+  showSavePasswordPrompt(u, p);
 }
 
 function showRegister() {
@@ -1992,6 +2040,7 @@ function showRegister() {
 function showLogin() {
   document.getElementById('register-screen').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
+  renderSavedAccounts();
 }
 
 function doLogout() {
@@ -2150,6 +2199,16 @@ function openEntityDetail(i) {
   document.getElementById('detail-class').innerHTML = `<span class="entity-class-badge badge-${e.cls || 'normal'}">${classLabel(e.cls)}</span>`;
   document.getElementById('detail-date').textContent = e.date || '—';
 
+  // Nature badge
+  const natureMap = { hostile: '⚠ HOSTILE', neutral: '◎ NEUTRAL', friendly: '✦ FRIENDLY' };
+  const natureColorMap = { hostile: '#ff5555', neutral: '#aaaaaa', friendly: '#55cc88' };
+  const natureEl = document.getElementById('detail-nature');
+  if (natureEl) {
+    const nat = e.nature || 'hostile';
+    natureEl.textContent = natureMap[nat] || '⚠ HOSTILE';
+    natureEl.style.color = natureColorMap[nat] || '#ff5555';
+  }
+
   const appearanceWrap = document.getElementById('detail-appearance-wrap');
   if (e.appearance) {
     document.getElementById('detail-appearance').textContent = e.appearance;
@@ -2213,6 +2272,10 @@ function openAddEntity() {
   document.getElementById('f-date').value = '';
   document.getElementById('f-appearance').value = '';
   document.getElementById('f-methods').value = '';
+  // Reset nature to hostile
+  document.querySelectorAll('#f-nature-wrap .nature-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.val === 'hostile');
+  });
   document.getElementById('f-class').value = 'normal';
   document.getElementById('cover-preview-img').style.display = 'none';
   document.getElementById('f-cover-file').value = '';
@@ -2254,6 +2317,7 @@ function submitEntity() {
   const cls = document.getElementById('f-class').value;
   const appearance = document.getElementById('f-appearance').value.trim();
   const methods = document.getElementById('f-methods').value.trim();
+  const nature = getSelectedNature();
 
   clearEntityErrors();
 
@@ -2275,7 +2339,7 @@ function submitEntity() {
   }
 
   entities.unshift({
-    entityId, name, date, cls, appearance, methods,
+    entityId, name, date, cls, appearance, methods, nature,
     coverImg: currentCoverData || null,
     author: currentUser?.username || 'Unknown',
     ts: Date.now()
@@ -2317,6 +2381,16 @@ function showEntityNameError(msg) {
   document.getElementById('f-name').classList.add('input-error');
   const nameErr = document.getElementById('entity-name-error');
   if (nameErr) { nameErr.textContent = msg; nameErr.classList.add('visible'); }
+}
+
+// ===== NATURE =====
+function selectNature(btn) {
+  document.querySelectorAll('#f-nature-wrap .nature-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function getSelectedNature() {
+  const active = document.querySelector('#f-nature-wrap .nature-btn.active');
+  return active ? active.dataset.val : 'hostile';
 }
 
 // ===== SETTINGS / ADMIN =====
@@ -2534,6 +2608,79 @@ function upToggleFollow() {
   document.getElementById('up-follow-count').textContent = `${followerCount} followers · ${followingCount} following`;
 }
 
+// ===== SAVED ACCOUNTS =====
+function getSavedAccounts() {
+  return JSON.parse(localStorage.getItem('oaa_saved_accounts') || '[]');
+}
+function saveSavedAccounts(arr) {
+  localStorage.setItem('oaa_saved_accounts', JSON.stringify(arr));
+}
+
+let _pendingSaveUser = null, _pendingSavePass = null;
+
+function showSavePasswordPrompt(u, p) {
+  _pendingSaveUser = u;
+  _pendingSavePass = p;
+  document.getElementById('save-pass-sub').textContent = `Save password for "${u}"? You can sign in automatically next time.`;
+  document.getElementById('save-pass-overlay').style.display = 'flex';
+}
+
+function doSavePassword(save) {
+  document.getElementById('save-pass-overlay').style.display = 'none';
+  if (save && _pendingSaveUser) {
+    const saved = getSavedAccounts();
+    if (!saved.find(s => s.username === _pendingSaveUser)) {
+      saved.push({ username: _pendingSaveUser, password: _pendingSavePass });
+      saveSavedAccounts(saved);
+    }
+  }
+  _pendingSaveUser = null;
+  _pendingSavePass = null;
+  enterApp();
+}
+
+function renderSavedAccounts() {
+  const saved = getSavedAccounts();
+  const wrap = document.getElementById('saved-accounts-wrap');
+  const list = document.getElementById('saved-accounts-list');
+  if (!saved.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = saved.map(s => {
+    const acc = ACCOUNTS.find(a => a.username === s.username);
+    const avatarHtml = acc && acc.avatar
+      ? `<img src="${acc.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+      : `<span style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;">${s.username[0].toUpperCase()}</span>`;
+    return `
+    <div onclick="quickLogin('${s.username}')" style="display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;margin-bottom:8px;background:rgba(255,255,255,0.03);cursor:pointer;">
+      <div style="width:40px;height:40px;border-radius:50%;background:#222;border:1.5px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">${avatarHtml}</div>
+      <div style="flex:1;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:1px;">${s.username}</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:11px;color:#555;letter-spacing:1px;">Tap to sign in</div>
+      </div>
+      <button onclick="event.stopPropagation();removeSavedAccount('${s.username}')" style="background:transparent;border:none;color:#555;font-size:16px;cursor:pointer;padding:4px 8px;">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function quickLogin(username) {
+  const saved = getSavedAccounts().find(s => s.username === username);
+  if (!saved) return;
+  const acc = ACCOUNTS.find(a => a.username === saved.username && a.password === saved.password);
+  if (!acc) {
+    removeSavedAccount(username);
+    renderSavedAccounts();
+    return;
+  }
+  currentUser = acc;
+  enterApp();
+}
+
+function removeSavedAccount(username) {
+  const saved = getSavedAccounts().filter(s => s.username !== username);
+  saveSavedAccounts(saved);
+  renderSavedAccounts();
+}
+
 // ===== SCROLL BEHAVIOR =====
 let lastScrollY = 0;
 let ticking = false;
@@ -2733,6 +2880,7 @@ window.addEventListener('load', () => {
     if (acc) { currentUser = acc; enterApp(); return; }
   }
   document.getElementById('auth-screen').style.display = 'flex';
+  renderSavedAccounts();
 });
 
 // Save session on login
