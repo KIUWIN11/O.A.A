@@ -1,6 +1,10 @@
 # Silent-extermination-and-killing [SE.AK] a detention area [SCP-foundation]
 ____________________________________________
 [SE.AK] > [HSTMTF] > [ET] [AS] [CF] [LS] [SE] 
+
+[SE.AK] > [C.F.19] > [AP] [AE] 
+
+[SE.AK] > [C.F.19] > [NF] 
 ____________________________________________
 
 [ET: Eliminating tornadoes]
