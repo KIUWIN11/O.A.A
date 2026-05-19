@@ -1,0 +1,2751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O.A.A — Operation to Assist in the Arrest</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #161616;
+    --surface: #1c1c1c;
+    --border: rgba(255,255,255,0.15);
+    --accent: #ffffff;
+    --accent2: #ff3c3c;
+    --text: #e8e8e8;
+    --muted: #c0c0c0;
+    --rank-color: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  /* ===== AUTH SCREEN ===== */
+  #auth-screen, #register-screen {
+    background: #1e1e1e;
+  }
+
+  #auth-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-direction: column;
+  }
+
+  .auth-card {
+    width: min(380px, 92vw);
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 36px 32px 28px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  }
+
+  .auth-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .auth-logo-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 900;
+    color: #111;
+  }
+
+  .auth-logo-text { line-height: 1.2; }
+
+  .auth-logo-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .auth-logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .auth-heading {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .auth-subheading {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .auth-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ccc;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .auth-input {
+    width: 100%;
+    background: #242424;
+    border: 1.5px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    padding: 11px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .auth-input:focus {
+    border-color: var(--accent);
+    background: #2a2a2a;
+  }
+
+  .auth-input::placeholder { color: #555; }
+
+  .auth-btn {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .auth-error {
+    font-size: 12px;
+    color: #ff5555;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 18px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    color: #444;
+    font-size: 12px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #2e2e2e;
+  }
+
+  .auth-register-btn {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 11px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* hide old corner decorations */
+  .auth-corner { display: none; }
+  .auth-box { display: none; }
+
+  /* ===== REGISTER SCREEN ===== */
+  #register-screen {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-direction: column;
+  }
+
+  /* ===== MAIN APP ===== */
+  #main-app {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* TOP HEADER */
+  #top-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(22,22,22,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  #top-header.hidden {
+    display: none;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-org {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+
+  .header-org span {
+    color: var(--accent);
+  }
+
+  .header-tagline {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #c0c0c0;
+    display: none;
+  }
+
+  @media(min-width: 600px) { .header-tagline { display: block; } }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-user {
+    text-align: right;
+  }
+
+  .header-username {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .header-title-badge {
+    display: inline-block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #000;
+    background: var(--rank-color);
+    padding: 2px 8px;
+    margin-top: 2px;
+  }
+
+  .header-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+    background: #1e1e1e;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* BOTTOM NAV */
+  #bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(22,22,22,0.98);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    z-index: 100;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  #bottom-nav.hidden {
+    display: none;
+  }
+
+  .nav-item {
+    flex: 1;
+    padding: 7px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    border-radius: 10px;
+    background: transparent;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #808080;
+    text-transform: uppercase;
+    min-width: 0;
+  }
+
+  .nav-item.active {
+    color: #ffffff;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .nav-item.active .nav-icon {
+    color: #ffffff;
+  }
+
+  .nav-icon { font-size: 18px; }
+
+  /* CONTENT */
+  #content {
+    flex: 1;
+    padding: 16px 14px;
+    padding-bottom: 90px;
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* ENTITY CARD */
+  .entity-card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .entity-card.visible {
+    opacity: 1;
+  }
+
+  .entity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .entity-cover {
+    width: calc(100% - 24px);
+    margin: 12px 12px 0;
+    aspect-ratio: 16/9;
+    background: #1a1a1a;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .entity-cover-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .entity-cover-inner img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .entity-cover-inner img.loaded {
+    display: block;
+  }
+
+  .cover-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.15);
+  }
+
+  .cover-placeholder-icon { font-size: 32px; }
+  .cover-placeholder-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .entity-info {
+    padding: 0 16px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .entity-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .entity-field-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #fff;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .entity-field-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+
+  .entity-field.full {
+    grid-column: 1 / -1;
+  }
+
+  .entity-class-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1.5px solid;
+    border-radius: 4px;
+  }
+
+  .badge-normal { color: #4caf50; border-color: #4caf50; background: rgba(76,175,80,0.1); }
+  .badge-danger { color: #ff9800; border-color: #ff9800; background: rgba(255,152,0,0.1); }
+  .badge-deadly { color: var(--accent2); border-color: var(--accent2); background: rgba(255,60,60,0.1); }
+  .badge-highrisk { color: #cc44ff; border-color: #cc44ff; background: rgba(204,68,255,0.1); }
+
+  /* ADD ENTITY BTN */
+  .add-entity-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1.5px dashed #333;
+    border-radius: 8px;
+    padding: 14px 16px;
+    cursor: pointer;
+    color: #aaa;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+
+  .add-entity-btn.visible { opacity: 1; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 1;
+  }
+
+  .section-title.visible { opacity: 1; }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    padding: 16px;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  /* Modal card matches auth-card exactly */
+  .modal {
+    width: min(420px, calc(100vw - 24px));
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 24px 20px 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: none;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  /* Logo row inside modal — same as auth-logo-row */
+  .modal-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modal-logo-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 900;
+    color: #111;
+    flex-shrink: 0;
+  }
+
+  .modal-logo-text { line-height: 1.2; }
+
+  .modal-logo-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+
+  .modal-logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-close {
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    font-size: 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    padding: 5px 12px;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* Modal heading matches auth-heading */
+  .modal-heading {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .modal-subheading {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  /* Form labels match auth-label */
+  .form-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ccc;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* Form inputs match auth-input */
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: #242424;
+    border: 1.5px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    padding: 11px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--accent);
+    background: #2a2a2a;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: #555; }
+
+  .form-select {
+    cursor: pointer;
+    appearance: none;
+    background-color: #242424;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .form-select option { background: #1a1a1a; }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* ENTITY ID ROW */
+  .entity-id-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .entity-prefix-sel {
+    flex: 1.6;
+    width: auto;
+    font-size: 13px;
+    padding: 11px 32px 11px 14px;
+    background-color: #242424;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%23888' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .entity-num-inp {
+    flex: 1;
+    width: auto;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  .entity-id-preview {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #aaa;
+    margin-top: 8px;
+    padding: 7px 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* Submit button matches auth-btn */
+  .modal-submit {
+    width: 100%;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  /* COVER UPLOAD — matches auth-input style */
+  .cover-upload-zone {
+    border: 1.5px dashed #333;
+    border-radius: 8px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: #242424;
+  }
+
+  .cover-upload-zone:hover {
+    border-color: #333;
+    background: #242424;
+  }
+
+  .cover-upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .cover-preview {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    margin-top: 12px;
+    display: none;
+    border-radius: 6px;
+  }
+
+  /* PROFILE PAGE */
+  .profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 18px 16px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .profile-header.visible { opacity: 1; }
+
+  .profile-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.3;
+  }
+
+  .profile-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .profile-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+    background: #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 24px;
+    color: var(--accent);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .avatar-upload-btn {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 24px; height: 24px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    color: #000;
+  }
+
+  .profile-info { flex: 1; }
+
+  .profile-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .profile-badge {
+    display: inline-block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #000;
+    background: var(--rank-color);
+    padding: 3px 12px;
+    margin-bottom: 12px;
+  }
+
+  .profile-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .stat-lbl {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #c0c0c0;
+    text-transform: uppercase;
+  }
+
+  /* GLITCH ANIMATION */
+  @keyframes glitch {
+    0%, 90%, 100% { clip-path: none; transform: none; }
+    92% { clip-path: inset(30% 0 50% 0); transform: translateX(-4px); }
+    94% { clip-path: inset(60% 0 20% 0); transform: translateX(4px); }
+    96% { clip-path: inset(10% 0 80% 0); transform: translateX(-2px); }
+  }
+
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+    animation: glitch 6s infinite;
+  }
+
+  /* HIDDEN class */
+  .hidden { display: none !important; }
+
+  /* LOADING STATE */
+  .loading-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), #fff);
+    z-index: 9999;
+    transition: width 0.4s;
+  }
+
+  /* CLASSIFED STRIP */
+  .classified-strip {
+    background: var(--accent2);
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-align: center;
+    padding: 6px;
+    text-transform: uppercase;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .classified-inner {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* PROFILE ACTIONS */
+  .profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  /* ===== CHAT ===== */
+  .chat-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+
+  .chat-search-icon {
+    color: var(--muted);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .chat-search-inp {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .chat-search-inp::placeholder { color: #555; }
+
+  .chat-agent-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .chat-agent-item:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.18);
+  }
+
+  .chat-agent-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #1e1e1e;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .chat-agent-info { flex: 1; min-width: 0; }
+
+  .chat-agent-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chat-agent-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #c0c0c0;
+    margin-top: 2px;
+  }
+
+  .chat-unread-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* CHAT THREAD */
+  #chat-thread {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 200px);
+  }
+
+  #chat-thread.hidden { display: none; }
+
+  .chat-thread-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .chat-back-btn {
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 8px 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .chat-thread-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .chat-thread-badge {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #c0c0c0;
+    margin-top: 2px;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 8px;
+  }
+
+  .chat-msg {
+    max-width: 78%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
+  .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
+
+  .chat-msg-meta {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #c0c0c0;
+    padding: 0 4px;
+  }
+
+  .chat-msg-bubble {
+    padding: 9px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .chat-msg.mine .chat-msg-bubble {
+    background: #fff;
+    color: #111;
+    border-bottom-right-radius: 4px;
+  }
+
+  .chat-msg.theirs .chat-msg-bubble {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-bottom-left-radius: 4px;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  .chat-msg-inp {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    color: #fff;
+    padding: 11px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chat-msg-inp:focus { border-color: rgba(255,255,255,0.4); }
+  .chat-msg-inp::placeholder { color: #555; }
+
+  .chat-send-btn {
+    width: 46px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .chat-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #c0c0c0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #c0c0c0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.5s 0.3s;
+  }
+
+  .empty-state.visible { opacity: 1; }
+  .empty-icon { font-size: 40px; margin-bottom: 16px; opacity: 0.3; }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .entity-info { grid-template-columns: 1fr; }
+    .profile-stats { gap: 16px; }
+  }
+
+  /* ===== ERROR STATES ===== */
+  .auth-input.input-error {
+    border-color: #ff3c3c !important;
+    color: #ff4444;
+  }
+  .auth-input.input-error::placeholder { color: rgba(255,60,60,0.5); }
+
+  .form-input.input-error,
+  .form-select.input-error {
+    border-color: #ff3c3c !important;
+    color: #ff4444;
+  }
+
+  .entity-id-preview.input-error {
+    border-color: rgba(255,60,60,0.6) !important;
+    color: #ff4444 !important;
+    background: rgba(255,60,60,0.06) !important;
+  }
+
+  .field-error {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #ff5555;
+    margin-top: 6px;
+    min-height: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.2s, opacity 0.2s;
+  }
+  .field-error.visible {
+    max-height: 40px;
+    opacity: 1;
+  }
+
+  /* ===== SIMPLIFIED ENTITY CARD ===== */
+  .entity-card {
+    cursor: pointer;
+  }
+  .entity-card:active { opacity: 0.85; }
+
+  .entity-card-bottom {
+    padding: 12px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(255,255,255,0.015);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .entity-card-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+  }
+
+  .entity-card-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  .entity-card-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  .entity-card-tap-hint {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+
+  /* ===== ENTITY DETAIL PANEL (bottom sheet) ===== */
+  #entity-detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 600;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+
+  #entity-detail-overlay.open {
+    display: flex;
+  }
+
+  #entity-detail-panel {
+    width: 100%;
+    max-width: 600px;
+    max-height: 92vh;
+    background: #1e1e1e;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-bottom: none;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+    position: relative;
+  }
+
+  #entity-detail-overlay.open #entity-detail-panel {
+    transform: translateY(0);
+  }
+
+  .detail-drag-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  .detail-cover {
+    width: calc(100% - 28px);
+    margin: 14px 14px 0;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+
+  .detail-cover img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  .detail-cover-placeholder {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: rgba(255,255,255,0.12);
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  }
+
+  .detail-cover-placeholder-icon { font-size: 32px; }
+  .detail-cover-placeholder-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  .detail-body {
+    padding: 20px 20px 32px;
+  }
+
+  .detail-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .detail-id-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+
+  .detail-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  .detail-close-btn {
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #111;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 12px;
+    text-transform: uppercase;
+  }
+
+  .detail-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 16px 0;
+  }
+
+  .detail-field {
+    margin-bottom: 16px;
+  }
+
+  .detail-field-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .detail-field-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.5;
+  }
+
+  .detail-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .detail-filed-by {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .detail-delete-btn {
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 8px 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .detail-delete-confirm-btn {
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    color: #111;
+    padding: 8px 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* ===== RESPONSIVE — ALL PHONES ===== */
+  @media (max-width: 480px) {
+    .auth-card { padding: 24px 18px 20px !important; width: calc(100vw - 32px) !important; }
+    .entity-info { grid-template-columns: 1fr; }
+    .profile-stats { gap: 16px; }
+    .header-org { font-size: 15px !important; letter-spacing: 1px !important; }
+    .header-username { font-size: 11px !important; }
+    .header-avatar { width: 34px !important; height: 34px !important; font-size: 11px !important; }
+    .profile-name { font-size: 18px !important; }
+    .nav-item span:not(.nav-icon) { font-size: 9px !important; }
+    .nav-icon { font-size: 16px !important; }
+    .detail-name { font-size: 20px !important; }
+    .detail-body { padding: 14px 14px 28px !important; }
+    .detail-footer { flex-direction: column; align-items: flex-start !important; gap: 10px; }
+    .modal { padding: 20px 16px 18px !important; }
+    .chat-back-btn { padding: 7px 12px !important; font-size: 12px !important; }
+  }
+
+  @media (max-width: 360px) {
+    .nav-item span:not(.nav-icon) { display: none; }
+    .nav-icon { font-size: 20px !important; }
+    .nav-item { padding: 10px 2px !important; }
+    .header-org { font-size: 13px !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING BAR -->
+<div class="loading-bar" id="loading-bar"></div>
+
+<!-- ===== AUTH SCREEN ===== -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo-row">
+      <div class="auth-logo-icon">OAA</div>
+      <div class="auth-logo-text">
+        <div class="auth-logo-name">[O.A.A]</div>
+        <div class="auth-logo-sub">Operation to Assist in the Arrest</div>
+      </div>
+    </div>
+
+    <div class="auth-heading">Sign In</div>
+    <div class="auth-subheading">Welcome back. Please verify your identity.</div>
+
+    <label class="auth-label">Username</label>
+    <input class="auth-input" id="login-user" type="text" placeholder="Enter username" autocomplete="off" oninput="clearLoginError()">
+
+    <label class="auth-label">Password</label>
+    <input class="auth-input" id="login-pass" type="password" placeholder="Enter password" oninput="clearLoginError()">
+
+    <button class="auth-btn" onclick="doLogin()">Sign In</button>
+    <div class="auth-error" id="login-error"></div>
+
+    <div class="auth-divider">or</div>
+    <button class="auth-register-btn" onclick="showRegister()">Create New Account</button>
+  </div>
+</div>
+
+<!-- ===== REGISTER SCREEN ===== -->
+<div id="register-screen">
+  <div class="auth-card">
+    <div class="auth-logo-row">
+      <div class="auth-logo-icon">OAA</div>
+      <div class="auth-logo-text">
+        <div class="auth-logo-name">[O.A.A]</div>
+        <div class="auth-logo-sub">New Agent Registration</div>
+      </div>
+    </div>
+
+    <div class="auth-heading">Create Account</div>
+    <div class="auth-subheading">Fill in the details below to join the organization.</div>
+
+    <label class="auth-label">Username</label>
+    <input class="auth-input" id="reg-user" type="text" placeholder="Enter username" autocomplete="off">
+
+    <label class="auth-label">Password</label>
+    <input class="auth-input" id="reg-pass" type="password" placeholder="Enter password">
+
+    <label class="auth-label">Confirm Password</label>
+    <input class="auth-input" id="reg-pass2" type="password" placeholder="Confirm password">
+
+    <button class="auth-btn" onclick="doRegister()">Register</button>
+    <div class="auth-error" id="reg-error"></div>
+
+    <div class="auth-divider">or</div>
+    <button class="auth-register-btn" onclick="showLogin()">← Back to Sign In</button>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="main-app">
+
+  <!-- Top Header -->
+  <div id="top-header">
+    <div class="header-left">
+      <div>
+        <div class="header-org"><span>[</span>O.A.A<span>]</span></div>
+        <div class="header-tagline">OPERATION TO ASSIST IN THE ARREST</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-user">
+        <div class="header-username" id="header-username-text">—</div>
+        <div id="header-title-badge" class="header-title-badge" style="display:none;"></div>
+      </div>
+      <div class="header-avatar" id="header-avatar" onclick="switchPage('profile')">?</div>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div id="content">
+
+    <!-- ENTITIES PAGE -->
+    <div id="page-entities">
+      <div class="section-title" id="sec-entities">◈ ENTITY REGISTRY</div>
+      <div class="add-entity-btn" id="add-entity-btn" onclick="openAddEntity()">
+        + ADD NEW ENTITY
+      </div>
+      <div id="entity-list"></div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="page-profile" class="hidden">
+      <div class="profile-header" id="profile-card">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="profile-avatar-display">?</div>
+          <div class="avatar-upload-btn" title="Upload Photo" onclick="document.getElementById('avatar-file-input').click()">✎</div>
+          <input type="file" id="avatar-file-input" accept="image/*" style="display:none" onchange="uploadAvatar(event)">
+        </div>
+        <div class="profile-info">
+          <div class="profile-name" id="profile-name-text">—</div>
+          <div id="profile-badge-wrap"></div>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-val" id="stat-entities">0</div>
+              <div class="stat-lbl">Entities</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-val" id="stat-rank">—</div>
+              <div class="stat-lbl">Rank</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button class="auth-btn" onclick="openAddEntity()">+ NEW ENTITY</button>
+        <button class="auth-register-btn" onclick="doLogout()">SIGN OUT</button>
+      </div>
+    </div>
+
+    <!-- CHAT PAGE -->
+    <div id="page-chat" class="hidden">
+      <div class="section-title">◈ SECURE CHANNEL</div>
+      <div id="chat-user-search-wrap">
+        <div class="chat-search-box">
+          <span class="chat-search-icon">⌕</span>
+          <input id="chat-search-input" class="chat-search-inp" type="text" placeholder="Search agent by username..." oninput="searchAgents(this.value)" autocomplete="off">
+        </div>
+        <div id="chat-agent-list"></div>
+      </div>
+      <div id="chat-thread" class="hidden">
+        <div class="chat-thread-header">
+          <button class="chat-back-btn" onclick="closeChatThread()">← BACK</button>
+          <div class="chat-thread-info">
+            <div class="chat-thread-name" id="chat-thread-name">—</div>
+            <div class="chat-thread-badge" id="chat-thread-badge"></div>
+          </div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-row">
+          <input id="chat-msg-input" class="chat-msg-inp" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="chat-send-btn" onclick="sendMsg()">▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="page-about" class="hidden">
+      <div class="section-title visible" style="margin-bottom:24px;">◈ ABOUT THE ORGANIZATION</div>
+      <div class="entity-card visible" style="padding: 24px;">
+        <div style="font-family:'Orbitron',monospace; font-size:22px; color: #fff; letter-spacing:3px; margin-bottom:10px;">[O.A.A]</div>
+        <div style="font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; color: #c0c0c0; margin-bottom:20px;">OPERATION TO ASSIST IN THE ARREST</div>
+        <div style="font-family:'Rajdhani',sans-serif; font-size:16px; line-height:1.8; color: rgba(255,255,255,0.9);">
+          O.A.A is a covert organization specializing in <strong style="color:#fff">detecting, classifying, and apprehending</strong> anomalous entities that pose a danger to society. Operating under a veil of secrecy, all information is encrypted and protected at the highest level.
+          <br><br>
+          Each entity is assigned an identifier and classified by threat level. Our mission: <em style="color:#fff">Apprehend — Analyze — Contain.</em>
+        </div>
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border);">
+          <div style="font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:#fff; margin-bottom:12px;">ENTITY CLASS LEVELS</div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <span class="entity-class-badge badge-normal">NORMAL</span>
+            <span class="entity-class-badge badge-danger">DANGER</span>
+            <span class="entity-class-badge badge-deadly">DEADLY DANGER</span>
+            <span class="entity-class-badge badge-highrisk">HIGH RISK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RULES SECTION -->
+      <div class="section-title visible" style="margin: 28px 0 16px;">◈ REGULATIONS &amp; RULES</div>
+      <div class="entity-card visible" style="padding: 24px;">
+        <div style="font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:#fff; margin-bottom:18px;">CONTENT OF THE REGULATIONS</div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+
+          <div class="about-rules-item" style="display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:14px 16px;">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:13px; color:rgba(255,255,255,0.3); flex-shrink:0; padding-top:2px;">01</div>
+            <div style="font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:600; color:rgba(255,255,255,0.88); line-height:1.6;">
+              You must <strong style="color:#fff">not create entities with the same code number</strong> or the same name as an existing entity already on record.
+            </div>
+          </div>
+
+          <div class="about-rules-item" style="display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:14px 16px;">
+            <div style="font-family:'Share Tech Mono',monospace; font-size:13px; color:rgba(255,255,255,0.3); flex-shrink:0; padding-top:2px;">02</div>
+            <div style="font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:600; color:rgba(255,255,255,0.88); line-height:1.6;">
+              Creating entities <strong style="color:#fff">without using A.I.</strong> — all entities must be conceived and designed entirely from scratch by the submitting member.
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.2);">
+          ◈ VIOLATION OF THESE RULES MAY RESULT IN ENTITY REMOVAL ◈
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE (Admin Only) -->
+    <div id="page-settings" class="hidden">
+      <div class="section-title visible">⚙ ADMIN SETTINGS</div>
+
+      <!-- ACCOUNT BOARD -->
+      <div class="entity-card visible" style="padding:20px 20px 16px; margin-bottom:20px;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;letter-spacing:2px;color:#fff;margin-bottom:4px;">ACCOUNT BOARD</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:13px;color:#c0c0c0;margin-bottom:18px;letter-spacing:1px;">Manage accounts — ban date, archive, delete, award titles</div>
+        <div id="settings-account-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- Bottom Nav -->
+  <div id="bottom-nav">
+    <div class="nav-item active" onclick="switchPage('entities')" id="nav-entities">
+      <span class="nav-icon">◧</span>
+      <span>Entities</span>
+    </div>
+    <div class="nav-item" onclick="switchPage('chat')" id="nav-chat">
+      <span class="nav-icon">◫</span>
+      <span>Messages</span>
+    </div>
+    <div class="nav-item" onclick="switchPage('profile')" id="nav-profile">
+      <span class="nav-icon">◉</span>
+      <span>Profile</span>
+    </div>
+    <div class="nav-item" onclick="switchPage('about')" id="nav-about">
+      <span class="nav-icon">◈</span>
+      <span>About</span>
+    </div>
+    <div class="nav-item" id="nav-settings" onclick="switchPage('settings')" style="display:none;">
+      <span class="nav-icon">⚙</span>
+      <span>Settings</span>
+    </div>
+  </div>
+
+</div><!-- /main-app -->
+
+<!-- ===== USER PROFILE PANEL ===== -->
+<div id="user-profile-overlay" onclick="handleUserProfileOverlayClick(event)" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:700;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);">
+  <div id="user-profile-panel" style="width:100%;max-width:600px;max-height:88vh;background:#1e1e1e;border-radius:20px 20px 0 0;border:1px solid rgba(255,255,255,0.1);border-bottom:none;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);">
+    <div style="width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;"></div>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:16px;padding:20px 20px 0;">
+      <div id="up-avatar" style="width:64px;height:64px;border-radius:50%;border:2px solid #fff;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:20px;color:#fff;flex-shrink:0;overflow:hidden;"></div>
+      <div style="flex:1;min-width:0;">
+        <div id="up-username" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:#fff;letter-spacing:1px;"></div>
+        <div id="up-title" style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:#c0c0c0;margin-top:4px;"></div>
+        <div id="up-follow-count" style="font-family:'Rajdhani',sans-serif;font-size:12px;color:#888;margin-top:4px;letter-spacing:1px;"></div>
+      </div>
+      <button onclick="closeUserProfile()" style="background:#fff;border:none;border-radius:8px;color:#111;padding:6px 12px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display:flex;gap:10px;padding:16px 20px;">
+      <button id="up-follow-btn" onclick="upToggleFollow()" style="flex:1;background:#fff;border:none;border-radius:8px;color:#111;padding:10px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;">+ FOLLOW</button>
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px;background:rgba(255,255,255,0.07);margin:0 20px;"></div>
+
+    <!-- Entities -->
+    <div style="padding:16px 20px 32px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:12px;">ENTITIES FILED</div>
+      <div id="up-entities-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ENTITY DETAIL PANEL ===== -->
+<div id="entity-detail-overlay" onclick="handleDetailOverlayClick(event)">
+  <div id="entity-detail-panel">
+    <div class="detail-drag-handle"></div>
+    <div class="detail-cover" id="detail-cover"></div>
+    <div class="detail-body">
+      <div class="detail-header-row">
+        <div>
+          <div class="detail-id-badge" id="detail-id"></div>
+          <div class="detail-name" id="detail-name"></div>
+        </div>
+        <button class="detail-close-btn" onclick="closeEntityDetail()">✕ CLOSE</button>
+      </div>
+      <div class="detail-divider"></div>
+      <div class="detail-field">
+        <div class="detail-field-label">// Classification</div>
+        <div id="detail-class"></div>
+      </div>
+      <div class="detail-field">
+        <div class="detail-field-label">// Date of Capture</div>
+        <div class="detail-field-value" id="detail-date"></div>
+      </div>
+      <div class="detail-field" id="detail-appearance-wrap">
+        <div class="detail-field-label">// Height and appearance</div>
+        <div class="detail-field-value" id="detail-appearance"></div>
+      </div>
+      <div class="detail-field" id="detail-methods-wrap">
+        <div class="detail-field-label">// Methods of killing</div>
+        <div class="detail-field-value" id="detail-methods"></div>
+      </div>
+      <div class="detail-footer">
+        <div class="detail-filed-by" id="detail-filed-by"></div>
+        <div id="detail-delete-wrap">
+          <button class="detail-delete-btn" id="detail-delete-btn" onclick="confirmDelete()">✕ DELETE</button>
+          <button class="detail-delete-confirm-btn" id="detail-delete-confirm-btn" onclick="executeDelete()" style="display:none;">⚠ CONFIRM DELETE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ENTITY MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-logo-row">
+        <div class="modal-logo-icon">OAA</div>
+        <div class="modal-logo-text">
+          <div class="modal-logo-name">[O.A.A]</div>
+          <div class="modal-logo-sub">Add New Entity</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕ CLOSE</button>
+    </div>
+    <div class="modal-heading">Create Entity</div>
+    <div class="modal-subheading">Fill in the details to register a new entity.</div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Entity ID</label>
+        <div class="entity-id-row">
+          <select class="form-select entity-prefix-sel" id="f-entity-prefix" onchange="updateIdPreview()">
+            <option value="Entity-">Entity-</option>
+            <option value="O.A.A Entity-">O.A.A Entity-</option>
+          </select>
+          <input class="form-input entity-num-inp" id="f-entity-num" type="text" placeholder="001" oninput="updateIdPreview(); clearEntityIdError()">
+        </div>
+        <div class="entity-id-preview" id="entity-id-preview">Entity-???</div>
+        <div class="field-error" id="entity-id-error"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Entity Name</label>
+        <input class="form-input" id="f-name" type="text" placeholder="E.g.: The Invisible One" oninput="clearEntityNameError()">
+        <div class="field-error" id="entity-name-error"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date of Capture</label>
+        <input class="form-input" id="f-date" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Entity Classification</label>
+        <select class="form-select" id="f-class">
+          <option value="normal">Normal</option>
+          <option value="danger">Danger</option>
+          <option value="deadly">Deadly Danger</option>
+          <option value="highrisk">High Risk</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Height and appearance</label>
+        <textarea class="form-textarea" id="f-appearance" placeholder="Describe height, build, appearance..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Methods of killing</label>
+        <textarea class="form-textarea" id="f-methods" placeholder="Describe known methods of killing..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cover Image</label>
+        <div class="cover-upload-zone">
+          <input type="file" accept="image/*" id="f-cover-file" onchange="previewCover(event)">
+          <div style="font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; color:#555;">
+            Click to upload image
+          </div>
+          <img class="cover-preview" id="cover-preview-img" alt="preview">
+        </div>
+      </div>
+      <button class="modal-submit" onclick="submitEntity()">Add Entity</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const ACCOUNTS = JSON.parse(localStorage.getItem('oaa_accounts') || '[]');
+const CF19_USER = 'Azurit';
+const CF19_PASS = 'qpf4q3';
+const CF19_TITLE = '[C.F.19]';
+
+// Ensure founder account exists
+if (!ACCOUNTS.find(a => a.username === CF19_USER)) {
+  ACCOUNTS.push({ username: CF19_USER, password: CF19_PASS, title: CF19_TITLE, avatar: null });
+  saveAccounts();
+}
+
+let currentUser = null;
+let entities = JSON.parse(localStorage.getItem('oaa_entities') || '[]');
+let currentPage = 'entities';
+
+function saveAccounts() {
+  localStorage.setItem('oaa_accounts', JSON.stringify(ACCOUNTS));
+}
+
+function saveEntities() {
+  localStorage.setItem('oaa_entities', JSON.stringify(entities));
+}
+
+// ===== AUTH =====
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const acc = ACCOUNTS.find(a => a.username === u && a.password === p);
+  if (!acc) {
+    document.getElementById('login-error').textContent = 'ⓘ INCORRECT USERNAME OR PASSWORD';
+    document.getElementById('login-user').classList.add('input-error');
+    document.getElementById('login-pass').classList.add('input-error');
+    return;
+  }
+  currentUser = acc;
+  enterApp();
+}
+
+function clearLoginError() {
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('login-user').classList.remove('input-error');
+  document.getElementById('login-pass').classList.remove('input-error');
+}
+
+function doRegister() {
+  const u = document.getElementById('reg-user').value.trim();
+  const p = document.getElementById('reg-pass').value;
+  const p2 = document.getElementById('reg-pass2').value;
+  const err = document.getElementById('reg-error');
+
+  if (!u || !p) { err.textContent = 'ⓘ PLEASE FILL IN ALL FIELDS'; return; }
+  if (p !== p2) { err.textContent = 'ⓘ PASSWORDS DO NOT MATCH'; return; }
+  if (ACCOUNTS.find(a => a.username === u)) { err.textContent = 'ⓘ USERNAME ALREADY EXISTS'; return; }
+
+  const acc = { username: u, password: p, title: null, avatar: null };
+  ACCOUNTS.push(acc);
+  saveAccounts();
+  currentUser = acc;
+  enterApp();
+}
+
+function showRegister() {
+  document.getElementById('auth-screen').style.display = 'none';
+  const rs = document.getElementById('register-screen');
+  rs.style.display = 'flex';
+}
+
+function showLogin() {
+  document.getElementById('register-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+function doLogout() {
+  currentUser = null;
+  sessionStorage.removeItem('oaa_session');
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  clearLoginError();
+}
+
+function enterApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('register-screen').style.display = 'none';
+  const app = document.getElementById('main-app');
+  app.style.display = 'flex';
+  app.style.flexDirection = 'column';
+  // Show settings nav for admin only
+  const settingsNav = document.getElementById('nav-settings');
+  if (settingsNav) settingsNav.style.display = (currentUser && currentUser.username === CF19_USER) ? 'flex' : 'none';
+  updateUserUI();
+  renderEntities();
+  triggerAnimations();
+}
+
+// ===== USER UI =====
+function updateUserUI() {
+  if (!currentUser) return;
+  const un = currentUser.username;
+  const title = currentUser.title;
+  const av = currentUser.avatar;
+
+  // Header
+  document.getElementById('header-username-text').textContent = un;
+  const badgeEl = document.getElementById('header-title-badge');
+  if (title) {
+    badgeEl.textContent = title;
+    badgeEl.style.display = 'inline-block';
+  } else {
+    badgeEl.style.display = 'none';
+  }
+
+  // Avatar header
+  const haEl = document.getElementById('header-avatar');
+  if (av) {
+    haEl.innerHTML = `<img src="${av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    haEl.textContent = un[0].toUpperCase();
+  }
+
+  // Profile page
+  document.getElementById('profile-name-text').textContent = un;
+  const pbw = document.getElementById('profile-badge-wrap');
+  if (title) {
+    pbw.innerHTML = `<div class="profile-badge">${title}</div>`;
+  } else {
+    pbw.innerHTML = `<div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;color:#c0c0c0;margin-bottom:12px;">FIELD AGENT</div>`;
+  }
+
+  const paEl = document.getElementById('profile-avatar-display');
+  if (av) {
+    paEl.innerHTML = `<img src="${av}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    paEl.textContent = un[0].toUpperCase();
+  }
+
+  // Stats
+  const userEntities = entities.filter(e => e.author === un);
+  document.getElementById('stat-entities').textContent = userEntities.length;
+  document.getElementById('stat-rank').textContent = title ? title : 'CLASS-D';
+}
+
+function uploadAvatar(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    currentUser.avatar = e.target.result;
+    const idx = ACCOUNTS.findIndex(a => a.username === currentUser.username);
+    if (idx !== -1) { ACCOUNTS[idx].avatar = e.target.result; saveAccounts(); }
+    updateUserUI();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== ENTITIES =====
+function renderEntities() {
+  const list = document.getElementById('entity-list');
+  if (entities.length === 0) {
+    list.innerHTML = `<div class="empty-state" id="empty-state">
+      <div class="empty-icon">◌</div>
+      NO ENTITIES ON RECORD
+    </div>`;
+    setTimeout(() => {
+      const es = document.getElementById('empty-state');
+      if (es) es.classList.add('visible');
+    }, 300);
+    return;
+  }
+
+  list.innerHTML = entities.map((e, i) => `
+    <div class="entity-card" id="ec-${i}" style="transition-delay: ${i * 0.08}s;" onclick="openEntityDetail(${i})">
+      <div class="entity-cover">
+        <div class="entity-cover-inner" id="cover-${i}">
+          ${e.coverImg ? `<img src="${e.coverImg}" class="loaded" alt="${e.name}">` : `
+          <div class="cover-placeholder">
+            <div class="cover-placeholder-icon">◌</div>
+            <div class="cover-placeholder-text">NO IMAGE</div>
+          </div>`}
+        </div>
+      </div>
+      <div class="entity-card-bottom">
+        <div class="entity-card-id">${e.entityId || '—'}</div>
+        <div class="entity-card-name">${e.name || '—'}</div>
+        ${e.date ? `<div class="entity-card-date">◈ ${e.date}</div>` : ''}
+        <div class="entity-card-tap-hint">VIEW DETAILS →</div>
+      </div>
+    </div>
+  `).join('');
+
+  updateUserUI();
+  triggerAnimations();
+}
+
+function classLabel(c) {
+  const m = { normal: 'NORMAL', danger: 'DANGER', deadly: 'DEADLY DANGER', highrisk: 'HIGH RISK' };
+  return m[c] || 'NORMAL';
+}
+
+// ===== ENTITY DETAIL PANEL =====
+let currentDetailEntityId = null;
+
+function openEntityDetail(i) {
+  const e = entities[i];
+  if (!e) return;
+  currentDetailEntityId = e.entityId;
+
+  // Reset delete button state
+  document.getElementById('detail-delete-btn').style.display = 'block';
+  document.getElementById('detail-delete-confirm-btn').style.display = 'none';
+
+  // Cover
+  const coverEl = document.getElementById('detail-cover');
+  if (e.coverImg) {
+    coverEl.innerHTML = `<img src="${e.coverImg}" alt="${e.name}">`;
+  } else {
+    coverEl.innerHTML = `<div class="detail-cover-placeholder">
+      <div class="detail-cover-placeholder-icon">◌</div>
+      <div class="detail-cover-placeholder-text">NO IMAGE</div>
+    </div>`;
+  }
+
+  document.getElementById('detail-id').textContent = e.entityId || '—';
+  document.getElementById('detail-name').textContent = e.name || '—';
+  document.getElementById('detail-class').innerHTML = `<span class="entity-class-badge badge-${e.cls || 'normal'}">${classLabel(e.cls)}</span>`;
+  document.getElementById('detail-date').textContent = e.date || '—';
+
+  const appearanceWrap = document.getElementById('detail-appearance-wrap');
+  if (e.appearance) {
+    document.getElementById('detail-appearance').textContent = e.appearance;
+    appearanceWrap.style.display = 'block';
+  } else {
+    appearanceWrap.style.display = 'none';
+  }
+
+  const methodsWrap = document.getElementById('detail-methods-wrap');
+  if (e.methods) {
+    document.getElementById('detail-methods').textContent = e.methods;
+    methodsWrap.style.display = 'block';
+  } else {
+    methodsWrap.style.display = 'none';
+  }
+
+  document.getElementById('detail-filed-by').innerHTML = `FILED BY: <span onclick="openUserProfile('${e.author || ''}')" style="cursor:pointer;text-decoration:underline;color:#fff;">${e.author || '—'}</span>`;
+
+  const delWrap = document.getElementById('detail-delete-wrap');
+  delWrap.style.display = (e.author === currentUser?.username) ? 'block' : 'none';
+
+  document.getElementById('entity-detail-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEntityDetail() {
+  document.getElementById('entity-detail-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentDetailEntityId = null;
+  // Reset delete state
+  document.getElementById('detail-delete-btn').style.display = 'block';
+  document.getElementById('detail-delete-confirm-btn').style.display = 'none';
+}
+
+function handleDetailOverlayClick(e) {
+  if (e.target === document.getElementById('entity-detail-overlay')) closeEntityDetail();
+}
+
+function confirmDelete() {
+  document.getElementById('detail-delete-btn').style.display = 'none';
+  document.getElementById('detail-delete-confirm-btn').style.display = 'block';
+}
+
+function executeDelete() {
+  if (!currentDetailEntityId) return;
+  const idx = entities.findIndex(e => e.entityId === currentDetailEntityId);
+  if (idx === -1) return;
+  entities.splice(idx, 1);
+  saveEntities();
+  closeEntityDetail();
+  renderEntities();
+}
+
+// ===== ADD ENTITY MODAL =====
+function openAddEntity() {
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('f-entity-prefix').value = 'Entity-';
+  document.getElementById('f-entity-num').value = '';
+  document.getElementById('entity-id-preview').textContent = 'Entity-???';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-date').value = '';
+  document.getElementById('f-appearance').value = '';
+  document.getElementById('f-methods').value = '';
+  document.getElementById('f-class').value = 'normal';
+  document.getElementById('cover-preview-img').style.display = 'none';
+  document.getElementById('f-cover-file').value = '';
+  currentCoverData = null;
+  clearEntityErrors();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+let currentCoverData = null;
+
+function previewCover(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    currentCoverData = e.target.result;
+    const img = document.getElementById('cover-preview-img');
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateIdPreview() {
+  const prefix = document.getElementById('f-entity-prefix').value;
+  const num = document.getElementById('f-entity-num').value.trim();
+  document.getElementById('entity-id-preview').textContent = prefix + (num || '???');
+}
+
+function submitEntity() {
+  const entityPrefix = document.getElementById('f-entity-prefix').value;
+  const entityNum = document.getElementById('f-entity-num').value.trim();
+  const entityId = entityPrefix + (entityNum || '???');
+  const name = document.getElementById('f-name').value.trim();
+  const date = document.getElementById('f-date').value;
+  const cls = document.getElementById('f-class').value;
+  const appearance = document.getElementById('f-appearance').value.trim();
+  const methods = document.getElementById('f-methods').value.trim();
+
+  clearEntityErrors();
+
+  if (!entityNum) {
+    showEntityIdError('ⓘ PLEASE ENTER ENTITY ID NUMBER');
+    return;
+  }
+  if (!name) {
+    showEntityNameError('ⓘ PLEASE ENTER ENTITY NAME');
+    return;
+  }
+  if (entities.find(e => e.entityId === entityId)) {
+    showEntityIdError('ⓘ THIS ENTITY ID IS ALREADY IN USE');
+    return;
+  }
+  if (entities.find(e => e.name.toLowerCase() === name.toLowerCase())) {
+    showEntityNameError('ⓘ THIS ENTITY NAME ALREADY EXISTS');
+    return;
+  }
+
+  entities.unshift({
+    entityId, name, date, cls, appearance, methods,
+    coverImg: currentCoverData || null,
+    author: currentUser?.username || 'Unknown',
+    ts: Date.now()
+  });
+  saveEntities();
+  closeModal();
+  renderEntities();
+}
+
+function clearEntityErrors() {
+  document.getElementById('f-entity-num').classList.remove('input-error');
+  document.getElementById('entity-id-preview').classList.remove('input-error');
+  const idErr = document.getElementById('entity-id-error');
+  if (idErr) { idErr.textContent = ''; idErr.classList.remove('visible'); }
+  clearEntityNameError();
+}
+
+function clearEntityIdError() {
+  document.getElementById('f-entity-num').classList.remove('input-error');
+  document.getElementById('entity-id-preview').classList.remove('input-error');
+  const idErr = document.getElementById('entity-id-error');
+  if (idErr) { idErr.textContent = ''; idErr.classList.remove('visible'); }
+}
+
+function clearEntityNameError() {
+  document.getElementById('f-name').classList.remove('input-error');
+  const nameErr = document.getElementById('entity-name-error');
+  if (nameErr) { nameErr.textContent = ''; nameErr.classList.remove('visible'); }
+}
+
+function showEntityIdError(msg) {
+  document.getElementById('f-entity-num').classList.add('input-error');
+  document.getElementById('entity-id-preview').classList.add('input-error');
+  const idErr = document.getElementById('entity-id-error');
+  if (idErr) { idErr.textContent = msg; idErr.classList.add('visible'); }
+}
+
+function showEntityNameError(msg) {
+  document.getElementById('f-name').classList.add('input-error');
+  const nameErr = document.getElementById('entity-name-error');
+  if (nameErr) { nameErr.textContent = msg; nameErr.classList.add('visible'); }
+}
+
+// ===== SETTINGS / ADMIN =====
+const ALL_TITLES = [
+  { code: 'C.F.19', label: 'C.F.19 — Council of Powers' },
+  { code: 'AP', label: 'AP — Advanced recruitment profile' },
+  { code: 'AE', label: 'AE — Assisting in the capture of entities' },
+  { code: 'AS', label: 'AS — Advanced weapons support' },
+  { code: 'CF', label: 'CF — Change the skilled workforce' },
+  { code: 'LS', label: 'LS — Long-range support' },
+  { code: 'SE', label: 'SE — Support for eradication' },
+  { code: 'ET', label: 'ET — Eliminating tornadoes' },
+];
+
+function renderSettingsAccounts() {
+  const list = document.getElementById('settings-account-list');
+  if (!list) return;
+  const others = ACCOUNTS.filter(a => a.username !== CF19_USER);
+  if (others.length === 0) {
+    list.innerHTML = `<div style="font-family:'Rajdhani',sans-serif;font-size:14px;color:#555;letter-spacing:1px;padding:20px 0;text-align:center;">NO OTHER ACCOUNTS YET</div>`;
+    return;
+  }
+  list.innerHTML = others.map(a => {
+    const banInfo = a.banUntil ? `<span style="color:#ff9800;font-size:11px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;">BANNED UNTIL ${a.banUntil}</span>` : '';
+    const archivedInfo = a.archived ? `<span style="color:#cc44ff;font-size:11px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;">ARCHIVED</span>` : '';
+    const titleBadge = a.title ? `<span style="background:#fff;color:#111;font-size:10px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:3px;">${a.title}</span>` : '';
+    return `
+    <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 16px;margin-bottom:12px;background:rgba(255,255,255,0.02);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <span style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:#fff;letter-spacing:1px;">${a.username}</span>
+          &nbsp;${titleBadge}&nbsp;${banInfo}&nbsp;${archivedInfo}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+
+        <!-- Awarding Titles -->
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#aaa;white-space:nowrap;">AWARDING TITLES</span>
+          <select id="title-sel-${a.username}" style="flex:1;min-width:0;background:#242424;border:1.5px solid #333;border-radius:6px;color:#fff;padding:6px 10px;font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;">
+            <option value="">— None —</option>
+            ${ALL_TITLES.map(t => `<option value="${t.code}" ${a.title === t.code ? 'selected' : ''}>${t.label}</option>`).join('')}
+          </select>
+          <button onclick="awardTitle('${a.username}')" style="background:#fff;border:none;border-radius:6px;color:#111;padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">✔</button>
+        </div>
+
+        <!-- Account Board: Ban Date -->
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#aaa;white-space:nowrap;">ACCOUNT BOARD</span>
+          <input type="date" id="ban-date-${a.username}" value="${a.banUntil || ''}" style="flex:1;min-width:0;background:#242424;border:1.5px solid #333;border-radius:6px;color:#fff;padding:6px 10px;font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;">
+          <button onclick="setBanDate('${a.username}')" style="background:#fff;border:none;border-radius:6px;color:#111;padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">BAN</button>
+          <button onclick="clearBan('${a.username}')" style="background:#fff;border:none;border-radius:6px;color:#111;padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">CLEAR</button>
+        </div>
+
+        <!-- Archive / Delete -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button onclick="toggleArchive('${a.username}')" style="flex:1;background:#fff;border:none;border-radius:6px;color:#111;padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">${a.archived ? 'UNARCHIVE' : 'ARCHIVE'}</button>
+          <button onclick="deleteAccount('${a.username}')" style="flex:1;background:#fff;border:none;border-radius:6px;color:#111;padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">DELETE ACCOUNT</button>
+        </div>
+
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function awardTitle(username) {
+  const sel = document.getElementById(`title-sel-${username}`);
+  const code = sel ? sel.value : '';
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS[idx].title = code || null;
+  saveAccounts();
+  renderSettingsAccounts();
+}
+
+function setBanDate(username) {
+  const inp = document.getElementById(`ban-date-${username}`);
+  const date = inp ? inp.value : '';
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS[idx].banUntil = date || null;
+  saveAccounts();
+  renderSettingsAccounts();
+}
+
+function clearBan(username) {
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS[idx].banUntil = null;
+  saveAccounts();
+  renderSettingsAccounts();
+}
+
+function toggleArchive(username) {
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS[idx].archived = !ACCOUNTS[idx].archived;
+  saveAccounts();
+  renderSettingsAccounts();
+}
+
+function deleteAccount(username) {
+  if (!confirm(`Are you sure you want to permanently delete account "${username}"? This cannot be undone.`)) return;
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS.splice(idx, 1);
+  saveAccounts();
+  renderSettingsAccounts();
+}
+
+// ===== USER PROFILE PANEL =====
+let upTarget = null;
+
+function getFollows() {
+  return JSON.parse(localStorage.getItem('oaa_follows') || '{}');
+}
+function saveFollows(f) {
+  localStorage.setItem('oaa_follows', JSON.stringify(f));
+}
+
+function openUserProfile(username) {
+  const acc = ACCOUNTS.find(a => a.username === username);
+  if (!acc || username === currentUser?.username) return;
+  upTarget = acc;
+
+  // Avatar
+  const avEl = document.getElementById('up-avatar');
+  if (acc.avatar) {
+    avEl.innerHTML = `<img src="${acc.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    avEl.textContent = acc.username[0].toUpperCase();
+  }
+
+  document.getElementById('up-username').textContent = acc.username;
+  document.getElementById('up-title').textContent = acc.title || 'FIELD AGENT';
+
+  // Follow state
+  const follows = getFollows();
+  const myFollows = follows[currentUser.username] || [];
+  const isFollowing = myFollows.includes(username);
+  document.getElementById('up-follow-btn').textContent = isFollowing ? '✓ FOLLOWING' : '+ FOLLOW';
+
+  // Follower count
+  const followerCount = Object.values(follows).filter(arr => arr.includes(username)).length;
+  const followingCount = (follows[username] || []).length;
+  document.getElementById('up-follow-count').textContent = `${followerCount} followers · ${followingCount} following`;
+
+  // Entities
+  const userEntities = entities.filter(e => e.author === username);
+  const listEl = document.getElementById('up-entities-list');
+  if (userEntities.length === 0) {
+    listEl.innerHTML = `<div style="font-family:'Rajdhani',sans-serif;font-size:14px;color:#555;text-align:center;padding:24px 0;letter-spacing:1px;">NO ENTITIES FILED YET</div>`;
+  } else {
+    listEl.innerHTML = userEntities.map(e => {
+      const badgeClass = { normal:'badge-normal', danger:'badge-danger', deadly:'badge-deadly', highrisk:'badge-highrisk' }[e.cls] || 'badge-normal';
+      const badgeLabel = { normal:'NORMAL', danger:'DANGER', deadly:'DEADLY DANGER', highrisk:'HIGH RISK' }[e.cls] || 'NORMAL';
+      return `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid rgba(255,255,255,0.07);border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.02);">
+        ${e.coverImg ? `<img src="${e.coverImg}" style="width:48px;height:36px;object-fit:cover;border-radius:4px;flex-shrink:0;">` : `<div style="width:48px;height:36px;background:#111;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(255,255,255,0.1);">◌</div>`}
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.name}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px;">${e.entityId}</div>
+        </div>
+        <span class="entity-class-badge ${badgeClass}" style="font-size:10px;padding:2px 8px;flex-shrink:0;">${badgeLabel}</span>
+      </div>`;
+    }).join('');
+  }
+
+  const overlay = document.getElementById('user-profile-overlay');
+  overlay.style.display = 'flex';
+  setTimeout(() => {
+    document.getElementById('user-profile-panel').style.transform = 'translateY(0)';
+  }, 10);
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUserProfile() {
+  document.getElementById('user-profile-panel').style.transform = 'translateY(100%)';
+  setTimeout(() => {
+    document.getElementById('user-profile-overlay').style.display = 'none';
+  }, 350);
+  document.body.style.overflow = '';
+  upTarget = null;
+}
+
+function handleUserProfileOverlayClick(e) {
+  if (e.target === document.getElementById('user-profile-overlay')) closeUserProfile();
+}
+
+function upGoMessage() {
+  if (!upTarget) return;
+  closeUserProfile();
+  setTimeout(() => {
+    switchPage('chat');
+    setTimeout(() => openChatThread(upTarget.username), 200);
+  }, 400);
+}
+
+function upToggleFollow() {
+  if (!upTarget) return;
+  const follows = getFollows();
+  if (!follows[currentUser.username]) follows[currentUser.username] = [];
+  const idx = follows[currentUser.username].indexOf(upTarget.username);
+  if (idx === -1) {
+    follows[currentUser.username].push(upTarget.username);
+    document.getElementById('up-follow-btn').textContent = '✓ FOLLOWING';
+  } else {
+    follows[currentUser.username].splice(idx, 1);
+    document.getElementById('up-follow-btn').textContent = '+ FOLLOW';
+  }
+  saveFollows(follows);
+  // Update follower count
+  const followerCount = Object.values(follows).filter(arr => arr.includes(upTarget.username)).length;
+  const followingCount = (follows[upTarget.username] || []).length;
+  document.getElementById('up-follow-count').textContent = `${followerCount} followers · ${followingCount} following`;
+}
+
+// ===== SCROLL BEHAVIOR =====
+let lastScrollY = 0;
+let ticking = false;
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      const header = document.getElementById('top-header');
+      const bottomNav = document.getElementById('bottom-nav');
+
+      if (sy > lastScrollY && sy > 80) {
+        // Scroll down: hide header, show bottom nav
+        header.classList.add('hidden');
+        bottomNav.classList.remove('hidden');
+      } else {
+        // Scroll up: show header, hide bottom nav (actually keep both, just animate)
+        header.classList.remove('hidden');
+        bottomNav.classList.remove('hidden');
+      }
+
+      // Intersection-based card animations
+      triggerAnimations();
+
+      lastScrollY = sy;
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+function triggerAnimations() {
+  const items = document.querySelectorAll('.entity-card, .section-title, .add-entity-btn, .profile-header');
+  items.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+// ===== PAGE SWITCHING =====
+function switchPage(page) {
+  currentPage = page;
+  const pages = ['entities', 'profile', 'about', 'chat', 'settings'];
+  pages.forEach(p => {
+    const el = document.getElementById(`page-${p}`);
+    if (el) el.classList.toggle('hidden', p !== page);
+    const nav = document.getElementById(`nav-${p}`);
+    if (nav) nav.classList.toggle('active', p === page);
+  });
+
+  window.scrollTo(0, 0);
+  setTimeout(triggerAnimations, 100);
+
+  if (page === 'profile') updateUserUI();
+  if (page === 'chat') { closeChatThread(); searchAgents(''); }
+  if (page === 'settings') renderSettingsAccounts();
+}
+
+// ===== CHAT =====
+let chatTarget = null;
+let chatPollInterval = null;
+
+function getMessages() {
+  return JSON.parse(localStorage.getItem('oaa_messages') || '[]');
+}
+
+function saveMessages(msgs) {
+  localStorage.setItem('oaa_messages', JSON.stringify(msgs));
+}
+
+function searchAgents(query) {
+  const listEl = document.getElementById('chat-agent-list');
+  const q = query.trim().toLowerCase();
+  const others = ACCOUNTS.filter(a =>
+    a.username !== currentUser?.username &&
+    (q === '' || a.username.toLowerCase().includes(q))
+  );
+
+  if (others.length === 0) {
+    listEl.innerHTML = `<div class="chat-empty">NO AGENTS FOUND</div>`;
+    return;
+  }
+
+  const msgs = getMessages();
+  listEl.innerHTML = others.map(a => {
+    const hasUnread = msgs.some(m => m.to === currentUser.username && m.from === a.username && !m.read);
+    const avatarHtml = a.avatar
+      ? `<img src="${a.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+      : `<span>${a.username[0].toUpperCase()}</span>`;
+    return `
+    <div class="chat-agent-item" onclick="openChatThread('${a.username}')">
+      <div class="chat-agent-avatar" onclick="event.stopPropagation(); openUserProfile('${a.username}')" style="cursor:pointer;">${avatarHtml}</div>
+      <div class="chat-agent-info">
+        <div class="chat-agent-name">${a.username}</div>
+        <div class="chat-agent-title">${a.title || 'FIELD AGENT'}</div>
+      </div>
+      ${hasUnread ? '<div class="chat-unread-dot"></div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function openChatThread(username) {
+  chatTarget = ACCOUNTS.find(a => a.username === username);
+  if (!chatTarget) return;
+
+  // Mark messages as read
+  const msgs = getMessages();
+  msgs.forEach(m => {
+    if (m.from === username && m.to === currentUser.username) m.read = true;
+  });
+  saveMessages(msgs);
+
+  document.getElementById('chat-user-search-wrap').classList.add('hidden');
+  const thread = document.getElementById('chat-thread');
+  thread.classList.remove('hidden');
+  document.getElementById('chat-thread-name').textContent = chatTarget.username;
+  document.getElementById('chat-thread-badge').textContent = chatTarget.title || 'FIELD AGENT';
+
+  renderMessages();
+  clearInterval(chatPollInterval);
+  chatPollInterval = setInterval(() => {
+    if (chatTarget) renderMessages();
+  }, 2000);
+}
+
+function closeChatThread() {
+  chatTarget = null;
+  clearInterval(chatPollInterval);
+  document.getElementById('chat-user-search-wrap').classList.remove('hidden');
+  document.getElementById('chat-thread').classList.add('hidden');
+}
+
+function renderMessages() {
+  const msgs = getMessages().filter(m =>
+    (m.from === currentUser.username && m.to === chatTarget.username) ||
+    (m.from === chatTarget.username && m.to === currentUser.username)
+  );
+
+  const container = document.getElementById('chat-messages');
+  if (msgs.length === 0) {
+    container.innerHTML = `<div class="chat-empty">NO MESSAGES YET — START THE CONVERSATION</div>`;
+    return;
+  }
+
+  container.innerHTML = msgs.map(m => {
+    const isMine = m.from === currentUser.username;
+    const time = new Date(m.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const badge = isMine ? (currentUser.title || 'FIELD AGENT') : (chatTarget.title || 'FIELD AGENT');
+    return `
+    <div class="chat-msg ${isMine ? 'mine' : 'theirs'}">
+      <div class="chat-msg-meta">${m.from} · ${badge} · ${time}</div>
+      <div class="chat-msg-bubble">${escapeHtml(m.text)}</div>
+    </div>`;
+  }).join('');
+
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendMsg() {
+  const inp = document.getElementById('chat-msg-input');
+  const text = inp.value.trim();
+  if (!text || !chatTarget) return;
+
+  const msgs = getMessages();
+  msgs.push({
+    from: currentUser.username,
+    to: chatTarget.username,
+    text,
+    ts: Date.now(),
+    read: false
+  });
+  saveMessages(msgs);
+  inp.value = '';
+  renderMessages();
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== KEYBOARD LOGIN =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('auth-screen').style.display !== 'none') doLogin();
+    else if (document.getElementById('register-screen').style.display === 'flex') doRegister();
+  }
+});
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  // Check if already logged in (session)
+  const saved = sessionStorage.getItem('oaa_session');
+  if (saved) {
+    const acc = ACCOUNTS.find(a => a.username === saved);
+    if (acc) { currentUser = acc; enterApp(); return; }
+  }
+  document.getElementById('auth-screen').style.display = 'flex';
+});
+
+// Save session on login
+const _enterApp = enterApp;
+enterApp = function() {
+  if (currentUser) sessionStorage.setItem('oaa_session', currentUser.username);
+  _enterApp();
+};
+
+// Close modal on overlay click
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
