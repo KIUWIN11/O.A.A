@@ -41,7 +41,7 @@ ____________________________________________
 _____________________________________________
 04: Information about these individuals must not be leaked to the public. If we find out who leaks their information, they will face dire consequences
 ____________________________________________
-05: You think we'll give you memory-enhancing drugs? That's not going to happen. Those violations are extremely serious, so we'll immediately send someone to kill anyone who violates them
+05: You think we'll give you Amnestics drugs? That's not going to happen. Those violations are extremely serious, so we'll immediately send someone to kill anyone who violates them
 ____________________________________________
 06: We're just saying this; if you don't understand, that's your problem
 ____________________________________________
