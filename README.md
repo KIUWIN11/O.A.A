@@ -37,7 +37,7 @@ ____________________________________________
 ____________________________________________
 02: Do not reveal the organization's link; that is confidential and should not be known to anyone, or the organization's website If you still do it, you'll understand the consequences
 ____________________________________________
-03: If you stubbornly insist on following those two rules, your family will also be affected. Do you understand? Your family will be affected
+03: If you stubbornlyinsist on not following the instructions, your family will also be affected. Do you understand? Your family will be affected
 _____________________________________________
 04: Information about these individuals must not be leaked to the public. If we find out who leaks their information, they will face dire consequences
 ____________________________________________
