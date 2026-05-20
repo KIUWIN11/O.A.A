@@ -980,8 +980,14 @@
     letter-spacing: 1.5px;
     color: #888;
     cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, opacity 0.28s ease, transform 0.28s ease;
     text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  .drawer-item.drawer-in {
+    opacity: 1;
+    transform: translateX(0);
   }
   .drawer-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
   .drawer-item.active { color: #fff; background: rgba(255,255,255,0.07); }
@@ -997,6 +1003,21 @@
     transition: width 0.4s;
   }
 
+  /* PROFILE ACTIONS */
+  .profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease 0.1s, transform 0.35s ease 0.1s;
+  }
+  .profile-actions.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   /* CLASSIFED STRIP */
   .classified-strip {
     background: var(--accent2);
@@ -1009,6 +1030,13 @@
     text-transform: uppercase;
     overflow: hidden;
     position: relative;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .classified-strip.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .classified-inner {
@@ -1022,15 +1050,7 @@
     to { transform: translateX(-100%); }
   }
 
-  /* PROFILE ACTIONS */
-  .profile-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-  }
-
-  /* ===== CHAT ===== */
+/* ===== CHAT ===== */
   .chat-search-box {
     display: flex;
     align-items: center;
@@ -1040,6 +1060,13 @@
     border-radius: 10px;
     padding: 10px 14px;
     margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.32s ease, transform 0.32s ease;
+  }
+  .chat-search-box.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .chat-search-icon {
@@ -1070,8 +1097,14 @@
     border-radius: 10px;
     margin-bottom: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s, opacity 0.32s ease, transform 0.32s ease;
     background: rgba(255,255,255,0.02);
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .chat-agent-item.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .chat-agent-item:hover {
@@ -1767,8 +1800,8 @@
 
     <!-- ABOUT PAGE -->
     <div id="page-about" class="hidden">
-      <div class="section-title visible" style="margin-bottom:24px;">◈ ABOUT THE ORGANIZATION</div>
-      <div class="entity-card visible" style="padding: 24px;">
+      <div class="section-title" style="margin-bottom:24px;">◈ ABOUT THE ORGANIZATION</div>
+      <div class="entity-card" style="padding: 24px;">
         <div style="font-family:'Orbitron',monospace; font-size:22px; color: #fff; letter-spacing:3px; margin-bottom:10px;">[S-E-A-K]</div>
         <div style="font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; color: #c0c0c0; margin-bottom:20px;">SILENT-EXTERMINATION-AND-KILLING</div>
         <div style="font-family:'Rajdhani',sans-serif; font-size:16px; line-height:1.8; color: rgba(255,255,255,0.9);">
@@ -1788,8 +1821,8 @@
       </div>
 
       <!-- RULES SECTION -->
-      <div class="section-title visible" style="margin: 28px 0 16px;">◈ REGULATIONS &amp; RULES</div>
-      <div class="entity-card visible" style="padding: 24px;">
+      <div class="section-title" style="margin: 28px 0 16px;">◈ REGULATIONS &amp; RULES</div>
+      <div class="entity-card" style="padding: 24px;">
         <div style="font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; letter-spacing:2px; color:#fff; margin-bottom:18px;">CONTENT OF THE REGULATIONS</div>
 
         <div style="display:flex; flex-direction:column; gap:12px;">
@@ -1818,10 +1851,10 @@
 
     <!-- SETTINGS PAGE (Admin Only) -->
     <div id="page-settings" class="hidden">
-      <div class="section-title visible">⚙ ADMIN SETTINGS</div>
+      <div class="section-title">⚙ ADMIN SETTINGS</div>
 
       <!-- ACCOUNT BOARD -->
-      <div class="entity-card visible" style="padding:20px 20px 16px; margin-bottom:20px;">
+      <div class="entity-card" style="padding:20px 20px 16px; margin-bottom:20px;">
         <div style="font-family:'Orbitron',monospace;font-size:13px;letter-spacing:2px;color:#fff;margin-bottom:4px;">ACCOUNT BOARD</div>
         <div style="font-family:'Rajdhani',sans-serif;font-size:13px;color:#c0c0c0;margin-bottom:18px;letter-spacing:1px;">Manage accounts — ban date, archive, delete, award titles</div>
         <div id="settings-account-list"></div>
@@ -1830,13 +1863,13 @@
 
     <!-- LEVEL CARD PAGE -->
     <div id="page-levelcard" class="hidden">
-      <div class="section-title visible">◆ LEVEL CARD</div>
+      <div class="section-title">◆ LEVEL CARD</div>
       <div id="levelcard-display"></div>
     </div>
 
     <!-- RANKS PAGE -->
     <div id="page-ranks" class="hidden">
-      <div class="section-title visible">◈ CLEARANCE RANK REGISTRY</div>
+      <div class="section-title">◈ CLEARANCE RANK REGISTRY</div>
       <!-- Classified banner -->
       <div class="classified-strip" style="border-radius:6px;margin-bottom:18px;">
         <span class="classified-inner">◈ S-E-A-K INTERNAL DOCUMENT — PERSONNEL CLEARANCE LEVELS — AUTHORIZED EYES ONLY ◈ S-E-A-K INTERNAL DOCUMENT — PERSONNEL CLEARANCE LEVELS — AUTHORIZED EYES ONLY ◈</span>
@@ -2813,11 +2846,14 @@ window.addEventListener('scroll', () => {
 });
 
 function triggerAnimations() {
-  const items = document.querySelectorAll('.entity-card, .section-title, .add-entity-btn, .profile-header');
+  const items = document.querySelectorAll(
+    '.entity-card, .section-title, .add-entity-btn, .profile-header, ' +
+    '.profile-actions, .chat-search-box, .chat-agent-item, .classified-strip'
+  );
   items.forEach(el => {
     const rect = el.getBoundingClientRect();
     if (rect.bottom < -40) {
-      // Scrolled completely above viewport — reset so it animates again on scroll back up
+      // Scrolled completely above viewport — reset so it re-animates on scroll back
       el.classList.remove('visible');
     } else if (rect.top < window.innerHeight - 50) {
       el.classList.add('visible');
@@ -2832,6 +2868,16 @@ function animateNavItems() {
   });
 }
 
+function animateDrawerItems() {
+  // Reset first
+  document.querySelectorAll('.drawer-item').forEach(el => el.classList.remove('drawer-in'));
+  // Stagger animate each visible item
+  const items = [...document.querySelectorAll('.drawer-item')].filter(el => el.style.display !== 'none');
+  items.forEach((el, i) => {
+    setTimeout(() => el.classList.add('drawer-in'), 80 + i * 75);
+  });
+}
+
 // ===== HAMBURGER MENU =====
 function toggleHamburger() {
   const overlay = document.getElementById('hamburger-overlay');
@@ -2843,12 +2889,17 @@ function toggleHamburger() {
     overlay.style.display = 'block';
     drawer.style.transform = 'translateX(0)';
     updateDrawerUserInfo();
+    animateDrawerItems();
   }
 }
 
 function closeHamburger() {
   document.getElementById('hamburger-overlay').style.display = 'none';
   document.getElementById('hamburger-drawer').style.transform = 'translateX(-100%)';
+  // Reset so items animate fresh next open
+  setTimeout(() => {
+    document.querySelectorAll('.drawer-item').forEach(el => el.classList.remove('drawer-in'));
+  }, 320);
 }
 
 function updateDrawerUserInfo() {
@@ -2939,6 +2990,13 @@ function searchAgents(query) {
       ${hasUnread ? '<div class="chat-unread-dot"></div>' : ''}
     </div>`;
   }).join('');
+  // Animate items in with stagger
+  setTimeout(() => {
+    document.querySelectorAll('.chat-agent-item').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.05}s`;
+      el.classList.add('visible');
+    });
+  }, 30);
 }
 
 function openChatThread(username) {
