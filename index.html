@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SCP — Secure. Contain. Protect.</title>
+<title>S-E-A-K — Silent-extermination-and-killing</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -935,6 +935,24 @@
   /* HIDDEN class */
   .hidden { display: none !important; }
 
+  /* HAMBURGER DRAWER ITEMS */
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #888;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    text-transform: uppercase;
+  }
+  .drawer-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+  .drawer-item.active { color: #fff; background: rgba(255,255,255,0.07); }
+
   /* LOADING STATE */
   .loading-bar {
     position: fixed;
@@ -1558,7 +1576,7 @@
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen" style="position:fixed;inset:0;background:#161616;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
-  <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;">[SCP]</div>
+  <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;">[S-E-A-K]</div>
   <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
   <div style="font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:3px;color:#555;">CONNECTING...</div>
   <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
@@ -1567,10 +1585,10 @@
 <div id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo-row">
-      <div class="auth-logo-icon">SCP</div>
+      <div class="auth-logo-icon">SEAK</div>
       <div class="auth-logo-text">
-        <div class="auth-logo-name">[SCP]</div>
-        <div class="auth-logo-sub">Secure. Contain. Protect.</div>
+        <div class="auth-logo-name">[S-E-A-K]</div>
+        <div class="auth-logo-sub">Silent-extermination-and-killing</div>
       </div>
     </div>
 
@@ -1595,9 +1613,9 @@
 <div id="register-screen">
   <div class="auth-card">
     <div class="auth-logo-row">
-      <div class="auth-logo-icon">SCP</div>
+      <div class="auth-logo-icon">SEAK</div>
       <div class="auth-logo-text">
-        <div class="auth-logo-name">[SCP]</div>
+        <div class="auth-logo-name">[S-E-A-K]</div>
         <div class="auth-logo-sub">New Agent Registration</div>
       </div>
     </div>
@@ -1628,9 +1646,14 @@
   <!-- Top Header -->
   <div id="top-header">
     <div class="header-left">
+      <button id="hamburger-btn" onclick="toggleHamburger()" style="background:none;border:none;cursor:pointer;padding:4px 6px;display:flex;flex-direction:column;gap:5px;flex-shrink:0;" aria-label="Menu">
+        <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+        <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+        <span style="display:block;width:22px;height:2px;background:#fff;border-radius:2px;"></span>
+      </button>
       <div>
-        <div class="header-org"><span>[</span>SCP<span>]</span></div>
-        <div class="header-tagline">SECURE. CONTAIN. PROTECT.</div>
+        <div class="header-org"><span>[</span>S-E-A-K<span>]</span></div>
+        <div class="header-tagline">SILENT-EXTERMINATION-AND-KILLING</div>
       </div>
     </div>
     <div class="header-right">
@@ -1713,10 +1736,10 @@
     <div id="page-about" class="hidden">
       <div class="section-title visible" style="margin-bottom:24px;">◈ ABOUT THE ORGANIZATION</div>
       <div class="entity-card visible" style="padding: 24px;">
-        <div style="font-family:'Orbitron',monospace; font-size:22px; color: #fff; letter-spacing:3px; margin-bottom:10px;">[SCP]</div>
-        <div style="font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; color: #c0c0c0; margin-bottom:20px;">SECURE. CONTAIN. PROTECT.</div>
+        <div style="font-family:'Orbitron',monospace; font-size:22px; color: #fff; letter-spacing:3px; margin-bottom:10px;">[S-E-A-K]</div>
+        <div style="font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; color: #c0c0c0; margin-bottom:20px;">SILENT-EXTERMINATION-AND-KILLING</div>
         <div style="font-family:'Rajdhani',sans-serif; font-size:16px; line-height:1.8; color: rgba(255,255,255,0.9);">
-          SCP is a covert organization specializing in <strong style="color:#fff">detecting, classifying, and apprehending</strong> anomalous entities that pose a danger to society. Operating under a veil of secrecy, all information is encrypted and protected at the highest level.
+          S-E-A-K is a covert organization specializing in <strong style="color:#fff">detecting, classifying, and apprehending</strong> anomalous entities that pose a danger to society. Operating under a veil of secrecy, all information is encrypted and protected at the highest level.
           <br><br>
           Each entity is assigned an identifier and classified by threat level. Our mission: <em style="color:#fff">Apprehend — Analyze — Contain.</em>
         </div>
@@ -1781,44 +1804,76 @@
     <!-- RANKS PAGE -->
     <div id="page-ranks" class="hidden">
       <div class="section-title visible">◈ CLEARANCE RANK REGISTRY</div>
+      <!-- Classified banner -->
+      <div class="classified-strip" style="border-radius:6px;margin-bottom:18px;">
+        <span class="classified-inner">◈ S-E-A-K INTERNAL DOCUMENT — PERSONNEL CLEARANCE LEVELS — AUTHORIZED EYES ONLY ◈ S-E-A-K INTERNAL DOCUMENT — PERSONNEL CLEARANCE LEVELS — AUTHORIZED EYES ONLY ◈</span>
+      </div>
       <div id="ranks-list"></div>
     </div>
 
   </div><!-- /content -->
 
-  <!-- Bottom Nav -->
+  <!-- Bottom Nav (2 items) -->
   <div id="bottom-nav">
     <div class="nav-item active" onclick="switchPage('entities')" id="nav-entities">
       <span class="nav-icon">◧</span>
       <span>Entities</span>
     </div>
-    <div class="nav-item" onclick="switchPage('chat')" id="nav-chat">
-      <span class="nav-icon">◫</span>
-      <span>Messages</span>
-    </div>
-    <div class="nav-item" onclick="switchPage('profile')" id="nav-profile">
-      <span class="nav-icon">◉</span>
-      <span>Profile</span>
-    </div>
-    <div class="nav-item" onclick="switchPage('about')" id="nav-about">
-      <span class="nav-icon">◈</span>
-      <span>About</span>
-    </div>
     <div class="nav-item" onclick="switchPage('levelcard')" id="nav-levelcard">
       <span class="nav-icon">▣</span>
       <span>Card</span>
     </div>
-    <div class="nav-item" onclick="switchPage('ranks')" id="nav-ranks">
-      <span class="nav-icon">◬</span>
-      <span>Ranks</span>
-    </div>
-    <div class="nav-item" id="nav-settings" onclick="switchPage('settings')" style="display:none;">
-      <span class="nav-icon">⚙</span>
-      <span>Settings</span>
-    </div>
   </div>
 
 </div><!-- /main-app -->
+
+<!-- ===== HAMBURGER DRAWER ===== -->
+<div id="hamburger-overlay" onclick="closeHamburger()" style="position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:800;display:none;backdrop-filter:blur(4px);"></div>
+<div id="hamburger-drawer" style="
+  position:fixed;left:0;top:0;bottom:0;width:260px;
+  background:#1a1a1a;z-index:801;
+  border-right:1px solid rgba(255,255,255,0.1);
+  transform:translateX(-100%);
+  transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);
+  display:flex;flex-direction:column;padding:0 0 24px;
+  overflow-y:auto;
+">
+  <!-- Drawer header -->
+  <div style="padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:#fff;letter-spacing:2px;">[S-E-A-K]</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;color:#555;margin-top:2px;">NAVIGATION MENU</div>
+  </div>
+  <!-- Drawer user info -->
+  <div id="drawer-user-info" style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div id="drawer-avatar" style="width:40px;height:40px;border-radius:50%;border:2px solid #fff;background:#1e1e1e;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:14px;color:#fff;flex-shrink:0;overflow:hidden;"></div>
+    <div style="flex:1;min-width:0;">
+      <div id="drawer-username" style="font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+      <div id="drawer-title" style="font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.5px;color:#888;margin-top:2px;"></div>
+    </div>
+  </div>
+  <!-- Menu items -->
+  <div style="padding:12px 0;flex:1;">
+    <div class="drawer-item" onclick="drawerNav('profile')" id="ditem-profile">
+      <span style="font-size:18px;">◉</span> PROFILE
+    </div>
+    <div class="drawer-item" onclick="drawerNav('chat')" id="ditem-chat">
+      <span style="font-size:18px;">◫</span> MESSAGES
+    </div>
+    <div class="drawer-item" onclick="drawerNav('about')" id="ditem-about">
+      <span style="font-size:18px;">◈</span> ABOUT
+    </div>
+    <div class="drawer-item" onclick="drawerNav('ranks')" id="ditem-ranks">
+      <span style="font-size:18px;">◬</span> RANKS
+    </div>
+    <div class="drawer-item" id="ditem-settings" style="display:none;" onclick="drawerNav('settings')">
+      <span style="font-size:18px;">⚙</span> SETTINGS
+    </div>
+  </div>
+  <!-- Logout -->
+  <div style="padding:0 16px;">
+    <button onclick="doLogout()" style="width:100%;background:#fff;border:none;border-radius:8px;color:#111;padding:11px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;cursor:pointer;">SIGN OUT</button>
+  </div>
+</div>
 <div id="user-profile-overlay" onclick="handleUserProfileOverlayClick(event)" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:700;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);">
   <div id="user-profile-panel" style="width:100%;max-width:600px;max-height:88vh;background:#1e1e1e;border-radius:20px 20px 0 0;border:1px solid rgba(255,255,255,0.1);border-bottom:none;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);">
     <div style="width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;"></div>
@@ -1900,9 +1955,9 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-logo-row">
-        <div class="modal-logo-icon">SCP</div>
+        <div class="modal-logo-icon">SEAK</div>
         <div class="modal-logo-text">
-          <div class="modal-logo-name">[SCP]</div>
+          <div class="modal-logo-name">[S-E-A-K]</div>
           <div class="modal-logo-sub">Add New Entity</div>
         </div>
       </div>
@@ -1916,7 +1971,7 @@
         <div class="entity-id-row">
           <select class="form-select entity-prefix-sel" id="f-entity-prefix" onchange="updateIdPreview()">
             <option value="Entity-">Entity-</option>
-            <option value="SCP-">SCP-</option>
+            <option value="S-E-A-K Entity-">S-E-A-K Entity-</option>
           </select>
           <input class="form-input entity-num-inp" id="f-entity-num" type="text" placeholder="001" oninput="updateIdPreview(); clearEntityIdError()">
         </div>
@@ -2075,7 +2130,7 @@ function showLogin() {
 
 function doLogout() {
   currentUser = null;
-  sessionStorage.removeItem('scp_session');
+  sessionStorage.removeItem('oaa_session');
   document.getElementById('main-app').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
   document.getElementById('login-user').value = '';
@@ -2089,9 +2144,8 @@ function enterApp() {
   const app = document.getElementById('main-app');
   app.style.display = 'flex';
   app.style.flexDirection = 'column';
-  // Show settings nav for admin only
-  const settingsNav = document.getElementById('nav-settings');
-  if (settingsNav) settingsNav.style.display = (currentUser && currentUser.username === CF19_USER) ? 'flex' : 'none';
+  updateDrawerUserInfo();
+  updateAddEntityBtn();
   updateUserUI();
   renderEntities();
   triggerAnimations();
@@ -2103,8 +2157,7 @@ function updateUserUI() {
   const un = currentUser.username;
   const title = currentUser.title;
   const av = currentUser.avatar;
-
-  // Header
+  updateDrawerUserInfo();
   document.getElementById('header-username-text').textContent = un;
   const badgeEl = document.getElementById('header-title-badge');
   if (title) {
@@ -2142,6 +2195,7 @@ function updateUserUI() {
   const userEntities = entities.filter(e => e.author === un);
   document.getElementById('stat-entities').textContent = userEntities.length;
   document.getElementById('stat-rank').textContent = title ? title : 'CLASS-D';
+  updateAddEntityBtn();
 }
 
 function compressImage(dataUrl, maxW = 600, quality = 0.7) {
@@ -2309,8 +2363,27 @@ function executeDelete() {
   renderEntities();
 }
 
+// ===== PERMISSION: CREATE ENTITY =====
+function canUserCreate() {
+  if (!currentUser) return false;
+  if (currentUser.username === CF19_USER) return true; // admin always can
+  return !!currentUser.canCreate;
+}
+
+function updateAddEntityBtn() {
+  const btn = document.getElementById('add-entity-btn');
+  if (btn) btn.style.display = canUserCreate() ? 'flex' : 'none';
+  // Also hide the "+ NEW ENTITY" button in profile
+  const profileBtn = document.querySelector('#page-profile .auth-btn');
+  if (profileBtn) profileBtn.style.display = canUserCreate() ? 'block' : 'none';
+}
+
 // ===== ADD ENTITY MODAL =====
 function openAddEntity() {
+  if (!canUserCreate()) {
+    alert('ⓘ YOU DO NOT HAVE PERMISSION TO CREATE ENTITIES\nPlease ask the administrator for permission.');
+    return;
+  }
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('f-entity-prefix').value = 'Entity-';
   document.getElementById('f-entity-num').value = '';
@@ -2475,6 +2548,12 @@ function renderSettingsAccounts() {
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;">
 
+        <!-- Create Permission -->
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#aaa;white-space:nowrap;">CREATE PERMISSION</span>
+          <button onclick="toggleCreatePerm('${a.username}')" style="flex:1;background:${a.canCreate ? '#4caf50' : '#fff'};border:none;border-radius:6px;color:${a.canCreate ? '#fff' : '#111'};padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;">${a.canCreate ? '✔ GRANTED' : '✕ DENIED'}</button>
+        </div>
+
         <!-- Awarding Titles -->
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;color:#aaa;white-space:nowrap;">AWARDING TITLES</span>
@@ -2547,6 +2626,19 @@ function deleteAccount(username) {
   ACCOUNTS.splice(idx, 1);
   saveAccounts();
   renderSettingsAccounts();
+}
+
+function toggleCreatePerm(username) {
+  const idx = ACCOUNTS.findIndex(a => a.username === username);
+  if (idx === -1) return;
+  ACCOUNTS[idx].canCreate = !ACCOUNTS[idx].canCreate;
+  saveAccounts();
+  renderSettingsAccounts();
+  // If the affected user is currently logged in, refresh their cached object
+  if (currentUser && currentUser.username === username) {
+    currentUser = ACCOUNTS[idx];
+    updateAddEntityBtn();
+  }
 }
 
 // ===== USER PROFILE PANEL =====
@@ -2696,6 +2788,46 @@ function triggerAnimations() {
   });
 }
 
+// ===== HAMBURGER MENU =====
+function toggleHamburger() {
+  const overlay = document.getElementById('hamburger-overlay');
+  const drawer = document.getElementById('hamburger-drawer');
+  const isOpen = drawer.style.transform === 'translateX(0px)' || drawer.style.transform === 'translateX(0)';
+  if (isOpen) {
+    closeHamburger();
+  } else {
+    overlay.style.display = 'block';
+    drawer.style.transform = 'translateX(0)';
+    updateDrawerUserInfo();
+  }
+}
+
+function closeHamburger() {
+  document.getElementById('hamburger-overlay').style.display = 'none';
+  document.getElementById('hamburger-drawer').style.transform = 'translateX(-100%)';
+}
+
+function updateDrawerUserInfo() {
+  if (!currentUser) return;
+  const avEl = document.getElementById('drawer-avatar');
+  if (currentUser.avatar) {
+    avEl.innerHTML = `<img src="${currentUser.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    avEl.textContent = currentUser.username[0].toUpperCase();
+  }
+  document.getElementById('drawer-username').textContent = currentUser.username;
+  document.getElementById('drawer-title').textContent = currentUser.title || 'FIELD AGENT';
+
+  // Show settings for admin
+  const ds = document.getElementById('ditem-settings');
+  if (ds) ds.style.display = (currentUser.username === CF19_USER) ? 'flex' : 'none';
+}
+
+function drawerNav(page) {
+  closeHamburger();
+  setTimeout(() => switchPage(page), 200);
+}
+
 // ===== PAGE SWITCHING =====
 function switchPage(page) {
   currentPage = page;
@@ -2705,6 +2837,8 @@ function switchPage(page) {
     if (el) el.classList.toggle('hidden', p !== page);
     const nav = document.getElementById(`nav-${p}`);
     if (nav) nav.classList.toggle('active', p === page);
+    const ditem = document.getElementById(`ditem-${p}`);
+    if (ditem) ditem.classList.toggle('active', p === page);
   });
 
   window.scrollTo(0, 0);
@@ -2865,68 +2999,137 @@ function renderRanks() {
   const clvColors = {'1':'#888','2':'#4fc3f7','3':'#81c784','4':'#ff8a65','5':'#ef5350','O5':'#ffd700'};
   const order = ['FIELD AGENT','AP','AE','AS','LS','CF','SE','ET','[C.F.19]'];
 
-  container.innerHTML = order.map(k => {
+  function hashStr(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+    return Math.abs(h);
+  }
+
+  container.innerHTML = order.map((k) => {
     const c = LEVEL_CARDS[k];
     if (!c) return '';
     const cc = clvColors[c.clearance] || '#aaa';
-    const displayCode = k === '[C.F.19]' ? 'C.F.19' : k;
+    const isCouncil = (k === '[C.F.19]');
+    const displayCode = isCouncil ? 'C.F.19' : k;
+
+    // Generate a sample card ID from the rank code
+    const seed = hashStr(k + 'RANK');
+    const n = String(seed).padStart(12,'0');
+    const cardId = 'SEAK-' + n.slice(0,4) + '-' + n.slice(4,8);
+
+    // Barcode
+    const barSeed = hashStr(k);
+    let barcodeHtml = '';
+    for (let i = 0; i < 42; i++) {
+      const h = 8 + ((barSeed >> (i % 18)) & 0xF);
+      const w = (i % 7 === 0) ? 3 : (i % 4 === 0) ? 2 : 1;
+      const op = 0.4 + ((barSeed >> i % 14) & 3) * 0.18;
+      barcodeHtml += `<div style="width:${w}px;height:${Math.round(h)}px;background:${cc};opacity:${op};flex-shrink:0;"></div>`;
+    }
 
     return `
+    <!-- === RANK CARD: ${displayCode} === -->
     <div style="
-      background:#0f0f0f;
-      border:1.5px solid #222;
+      background:${isCouncil
+        ? 'linear-gradient(160deg,#0f0c00 0%,#131008 60%,#0a0800 100%)'
+        : 'linear-gradient(160deg,#0d0d0d 0%,#111318 60%,#0a0c10 100%)'};
+      border:1.5px solid ${isCouncil ? '#3a3000' : '#2a2a2a'};
       border-radius:10px;
       overflow:hidden;
-      margin-bottom:16px;
+      box-shadow:${isCouncil ? '0 0 32px rgba(255,215,0,0.07), 0 8px 40px rgba(0,0,0,0.8)' : '0 8px 40px rgba(0,0,0,0.8)'};
+      margin-bottom:20px;
+      position:relative;
     ">
-      <!-- Header bar -->
-      <div style="background:#0a0a0a;border-bottom:1px solid #1a1a1a;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-family:'Orbitron',monospace;font-size:11px;font-weight:900;color:#fff;letter-spacing:3px;">SCP</div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;letter-spacing:2px;">PERSONNEL ID</div>
+      <!-- Watermark -->
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;">
+        <div style="font-family:'Orbitron',monospace;font-size:64px;font-weight:900;color:rgba(255,255,255,0.018);letter-spacing:4px;transform:rotate(-25deg);user-select:none;">S-E-A-K</div>
       </div>
 
-      <!-- Clearance stripe -->
+      <!-- Top header bar -->
+      <div style="background:#0f0f0f;border-bottom:1px solid #1e1e1e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:#fff;letter-spacing:3px;">S-E-A-K</div>
+          <div style="width:1px;height:14px;background:#333;"></div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#555;letter-spacing:2px;">SILENT-EXTERMINATION-AND-KILLING</div>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#444;letter-spacing:1px;">PERSONNEL ID</div>
+      </div>
+
+      <!-- Clearance color stripe -->
       <div style="height:3px;background:linear-gradient(90deg,${cc},${c.glow},transparent);"></div>
 
-      <!-- Body -->
-      <div style="padding:14px;display:flex;gap:14px;align-items:flex-start;">
+      <!-- Card body -->
+      <div style="padding:18px 16px;position:relative;z-index:1;">
+        <div style="display:flex;gap:16px;margin-bottom:18px;">
 
-        <!-- Photo box -->
-        <div style="flex-shrink:0;">
-          <div style="
-            width:60px;height:74px;
-            border:1px solid #2a2a2a;border-radius:4px;
-            background:#0a0a0a;
-            display:flex;align-items:center;justify-content:center;
-            font-size:24px;color:${cc}44;
-          ">${c.icon}</div>
-          <div style="
-            margin-top:5px;text-align:center;
-            background:${cc}15;border:1px solid ${cc}44;border-radius:3px;padding:2px 0;
-          ">
-            <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#555;letter-spacing:1px;">LVL</div>
-            <div style="font-family:'Orbitron',monospace;font-size:12px;font-weight:900;color:${cc};line-height:1;">${c.clearance}</div>
+          <!-- Photo placeholder box -->
+          <div style="flex-shrink:0;">
+            <div style="
+              width:72px;height:88px;
+              border:1.5px solid #2a2a2a;
+              border-radius:4px;
+              background:#0a0a0a;
+              display:flex;align-items:center;justify-content:center;
+              position:relative;overflow:hidden;
+            ">
+              <div style="font-family:'Orbitron',monospace;font-size:28px;color:${cc}33;">${c.icon}</div>
+              <div style="position:absolute;top:3px;left:3px;width:8px;height:8px;border-top:1px solid ${cc}44;border-left:1px solid ${cc}44;"></div>
+              <div style="position:absolute;top:3px;right:3px;width:8px;height:8px;border-top:1px solid ${cc}44;border-right:1px solid ${cc}44;"></div>
+              <div style="position:absolute;bottom:3px;left:3px;width:8px;height:8px;border-bottom:1px solid ${cc}44;border-left:1px solid ${cc}44;"></div>
+              <div style="position:absolute;bottom:3px;right:3px;width:8px;height:8px;border-bottom:1px solid ${cc}44;border-right:1px solid ${cc}44;"></div>
+            </div>
+            <!-- Clearance badge under photo -->
+            <div style="
+              margin-top:6px;
+              text-align:center;
+              background:${cc}18;
+              border:1px solid ${cc}55;
+              border-radius:3px;
+              padding:3px 0;
+            ">
+              <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#555;letter-spacing:1px;">LVL</div>
+              <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:${cc};line-height:1;">${c.clearance}</div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:2px;margin-bottom:2px;">RANK CODE</div>
+            <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:${cc};letter-spacing:2px;margin-bottom:10px;">${displayCode}</div>
+
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:2px;margin-bottom:2px;">DESIGNATION</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:#ccc;letter-spacing:0.5px;margin-bottom:10px;line-height:1.3;">${c.label}</div>
+
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:2px;margin-bottom:2px;">DEPARTMENT</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#666;letter-spacing:1px;">${c.dept}</div>
           </div>
         </div>
 
-        <!-- Info -->
-        <div style="flex:1;min-width:0;">
-          <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:2px;margin-bottom:2px;">RANK CODE</div>
-          <div style="font-family:'Orbitron',monospace;font-size:15px;font-weight:900;color:${cc};letter-spacing:2px;margin-bottom:8px;">${displayCode}</div>
-
-          <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:2px;margin-bottom:2px;">DESIGNATION</div>
-          <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#ccc;margin-bottom:8px;line-height:1.3;">${c.label}</div>
-
-          <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:2px;margin-bottom:2px;">DEPARTMENT</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#555;letter-spacing:1px;">${c.dept}</div>
+        <!-- Barcode + card ID -->
+        <div style="border-top:1px solid #1a1a1a;padding-top:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#333;letter-spacing:3px;">${cardId}</div>
+            <div style="
+              padding:2px 8px;
+              border:1px solid ${cc}55;
+              border-radius:2px;
+              font-family:'Share Tech Mono',monospace;
+              font-size:9px;color:${cc};
+              letter-spacing:2px;
+            ">${displayCode}</div>
+          </div>
+          <div style="display:flex;gap:1.5px;align-items:flex-end;height:24px;margin-bottom:6px;">
+            ${barcodeHtml}
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#1e1e1e;letter-spacing:1px;">FOR OFFICIAL USE ONLY</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#1e1e1e;letter-spacing:1px;">UNAUTHORIZED USE PROHIBITED</div>
+          </div>
         </div>
       </div>
 
-      <!-- Footer -->
-      <div style="border-top:1px solid #1a1a1a;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#222;letter-spacing:1px;">FOR OFFICIAL USE ONLY</div>
-        <div style="padding:2px 8px;border:1px solid ${cc}44;border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:8px;color:${cc};letter-spacing:2px;">${displayCode}</div>
-      </div>
+      <!-- Bottom accent -->
+      <div style="height:2px;background:linear-gradient(90deg,transparent,${cc}44,transparent);"></div>
     </div>`;
   }).join('');
 }
@@ -2958,7 +3161,7 @@ function renderLevelCard() {
   }
   const seed = hashStr(currentUser.username + key);
   const n = String(seed).padStart(12,'0');
-  const cardId = 'SCP-' + n.slice(0,4) + '-' + n.slice(4,8);
+  const cardId = 'SEAK-' + n.slice(0,4) + '-' + n.slice(4,8);
   const issueYear = '20' + (23 + (seed % 3));
   const expYear = String(parseInt(issueYear) + 3);
 
@@ -2991,15 +3194,15 @@ function renderLevelCard() {
       ">
         <!-- Watermark -->
         <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;">
-          <div style="font-family:'Orbitron',monospace;font-size:64px;font-weight:900;color:rgba(255,255,255,0.018);letter-spacing:4px;transform:rotate(-25deg);user-select:none;">SCP</div>
+          <div style="font-family:'Orbitron',monospace;font-size:64px;font-weight:900;color:rgba(255,255,255,0.018);letter-spacing:4px;transform:rotate(-25deg);user-select:none;">S-E-A-K</div>
         </div>
 
         <!-- Top header bar -->
         <div style="background:#0f0f0f;border-bottom:1px solid #1e1e1e;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;">
           <div style="display:flex;align-items:center;gap:10px;">
-            <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:#fff;letter-spacing:3px;">SCP</div>
+            <div style="font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:#fff;letter-spacing:3px;">S-E-A-K</div>
             <div style="width:1px;height:14px;background:#333;"></div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#555;letter-spacing:2px;">SECURE CONTAIN PROTECT</div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#555;letter-spacing:2px;">SILENT-EXTERMINATION-AND-KILLING</div>
           </div>
           <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#444;letter-spacing:1px;">PERSONNEL ID</div>
         </div>
@@ -3192,7 +3395,7 @@ async function initFromFirebase() {
     document.getElementById('loading-screen').style.display = 'none';
 
     // Check session
-    const saved = sessionStorage.getItem('scp_session');
+    const saved = sessionStorage.getItem('oaa_session');
     if (saved) {
       const acc = ACCOUNTS.find(a => a.username === saved);
       if (acc) { currentUser = acc; enterApp(); return; }
@@ -3221,7 +3424,7 @@ document.addEventListener('keydown', (e) => {
 // Save session on login
 const _enterApp = enterApp;
 enterApp = function() {
-  if (currentUser) sessionStorage.setItem('scp_session', currentUser.username);
+  if (currentUser) sessionStorage.setItem('oaa_session', currentUser.username);
   _enterApp();
 };
 
