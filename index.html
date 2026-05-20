@@ -1631,6 +1631,156 @@
     .nav-item { padding: 10px 2px !important; }
     .header-org { font-size: 13px !important; }
   }
+
+  /* ===== HSTMTF PAGE ===== */
+  .mtf-intro-card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.38s ease, transform 0.38s ease;
+  }
+  .mtf-intro-card.visible { opacity: 1; transform: translateY(0); }
+
+  .mtf-card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.38s ease, transform 0.38s ease;
+  }
+  .mtf-card.visible { opacity: 1; transform: translateY(0); }
+
+  .mtf-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-left: 3px solid var(--mtf-color, #fff);
+    background: rgba(255,255,255,0.015);
+  }
+
+  .mtf-code-badge {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: var(--mtf-color, #fff);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--mtf-color, rgba(255,255,255,0.2));
+    padding: 5px 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .mtf-card-title-wrap { flex: 1; min-width: 0; }
+
+  .mtf-card-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .mtf-card-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.32);
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .mtf-slots-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .mtf-slot {
+    background: #0e0e0e;
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mtf-slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mtf-slot-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.18);
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .mtf-slot-icon {
+    font-size: 28px;
+    opacity: 0.1;
+    z-index: 1;
+  }
+
+  .mtf-slot-pending {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.1);
+    border: 1px dashed rgba(255,255,255,0.07);
+    padding: 4px 10px;
+    border-radius: 3px;
+    z-index: 1;
+  }
+
+  .mtf-card-mission {
+    padding: 14px 18px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .mtf-mission-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: rgba(255,255,255,0.28);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .mtf-mission-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+  }
 </style>
 </head>
 <body>
@@ -1877,6 +2027,15 @@
       <div id="ranks-list"></div>
     </div>
 
+    <!-- HSTMTF PAGE -->
+    <div id="page-hstmtf" class="hidden">
+      <div class="section-title">◈ HSTMTF — TASK FORCE REGISTRY</div>
+      <div class="classified-strip" style="border-radius:6px;margin-bottom:18px;">
+        <span class="classified-inner">◈ S-E-A-K CLASSIFIED — MOBILE TASK FORCE DOSSIERS — UNAUTHORIZED ACCESS PROHIBITED ◈ S-E-A-K CLASSIFIED — MOBILE TASK FORCE DOSSIERS — UNAUTHORIZED ACCESS PROHIBITED ◈</span>
+      </div>
+      <div id="mtf-list"></div>
+    </div>
+
   </div><!-- /content -->
 
   <!-- Bottom Nav (2 items) -->
@@ -1930,6 +2089,9 @@
     </div>
     <div class="drawer-item" onclick="drawerNav('ranks')" id="ditem-ranks">
       <span style="font-size:18px;">◬</span> RANKS
+    </div>
+    <div class="drawer-item" onclick="drawerNav('hstmtf')" id="ditem-hstmtf">
+      <span style="font-size:18px;">◫</span> HSTMTF
     </div>
     <div class="drawer-item" id="ditem-settings" style="display:none;" onclick="drawerNav('settings')">
       <span style="font-size:18px;">⚙</span> SETTINGS
@@ -2848,7 +3010,8 @@ window.addEventListener('scroll', () => {
 function triggerAnimations() {
   const items = document.querySelectorAll(
     '.entity-card, .section-title, .add-entity-btn, .profile-header, ' +
-    '.profile-actions, .chat-search-box, .chat-agent-item, .classified-strip'
+    '.profile-actions, .chat-search-box, .chat-agent-item, .classified-strip, ' +
+    '.mtf-card, .mtf-intro-card'
   );
   items.forEach(el => {
     const rect = el.getBoundingClientRect();
@@ -2923,10 +3086,59 @@ function drawerNav(page) {
   setTimeout(() => switchPage(page), 200);
 }
 
-// ===== PAGE SWITCHING =====
+// ===== HSTMTF DATA =====
+const MTF_TEAMS = [
+  { code: 'ET',     name: 'Eliminating Tornadoes',       mission: 'Eliminating tornadoes — rapid response and suppression of high-velocity anomalous threats.',        color: '#e63946', uniformImg: null, weaponImg: null },
+  { code: 'AS',     name: 'Advanced Weapons Support',    mission: 'Providing advanced weapons support to field operatives engaging high-priority entities.',             color: '#f77f00', uniformImg: null, weaponImg: null },
+  { code: 'CF',     name: 'Skilled Workforce',           mission: 'Restructuring and optimizing the skilled workforce across all active S-E-A-K divisions.',            color: '#fcbf49', uniformImg: null, weaponImg: null },
+  { code: 'LS',     name: 'Long-Range Support',          mission: 'Long-range support operations — precision strikes and remote intelligence collection.',              color: '#2a9d8f', uniformImg: null, weaponImg: null },
+  { code: 'SE',     name: 'Support for Eradication',     mission: 'Dedicated support for full eradication of entities classified as uncontainable.',                   color: '#8338ec', uniformImg: null, weaponImg: null },
+  { code: 'AP',     name: 'Advanced Recruitment Profile',mission: 'Advanced recruitment and profiling of candidates for high-clearance S-E-A-K positions.',            color: '#3a86ff', uniformImg: null, weaponImg: null },
+  { code: 'AE',     name: 'Assisting Entity Capture',    mission: 'Specialized in assisting field teams during the capture and containment of anomalous entities.',    color: '#06d6a0', uniformImg: null, weaponImg: null },
+  { code: 'C.F.19', name: 'Council of Powers',           mission: 'Supreme governing council — final authority on cross-division operations and executive decisions.',  color: '#ffd60a', uniformImg: null, weaponImg: null },
+  { code: 'NF',     name: 'Move Forward Strongly',       mission: 'Never back down — advance aggressively through hostile engagements with unyielding force.',         color: '#ff006e', uniformImg: null, weaponImg: null },
+];
+
+function renderMTF() {
+  const list = document.getElementById('mtf-list');
+  list.innerHTML = MTF_TEAMS.map(t => `
+    <div class="mtf-card" style="--mtf-color:${t.color};">
+      <div class="mtf-card-header">
+        <div class="mtf-code-badge">[${t.code}]</div>
+        <div class="mtf-card-title-wrap">
+          <div class="mtf-card-name">${t.name}</div>
+          <div class="mtf-card-role">Mobile Task Force · ${t.code}</div>
+        </div>
+      </div>
+      <div class="mtf-slots-row">
+        <div class="mtf-slot">
+          ${t.uniformImg
+            ? `<img src="${t.uniformImg}" alt="Uniform">`
+            : `<div class="mtf-slot-icon">◉</div>
+               <div class="mtf-slot-label">UNIFORM</div>
+               <div class="mtf-slot-pending">PENDING</div>`
+          }
+        </div>
+        <div class="mtf-slot">
+          ${t.weaponImg
+            ? `<img src="${t.weaponImg}" alt="Weapon">`
+            : `<div class="mtf-slot-icon">◈</div>
+               <div class="mtf-slot-label">WEAPONS</div>
+               <div class="mtf-slot-pending">PENDING</div>`
+          }
+        </div>
+      </div>
+      <div class="mtf-card-mission">
+        <div class="mtf-mission-label">MISSION STATEMENT</div>
+        <div class="mtf-mission-text">${t.mission}</div>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(triggerAnimations, 80);
+}
 function switchPage(page) {
   currentPage = page;
-  const pages = ['entities', 'profile', 'about', 'chat', 'settings', 'levelcard', 'ranks'];
+  const pages = ['entities', 'profile', 'about', 'chat', 'settings', 'levelcard', 'ranks', 'hstmtf'];
   pages.forEach(p => {
     const el = document.getElementById(`page-${p}`);
     if (el) el.classList.toggle('hidden', p !== page);
@@ -2945,6 +3157,7 @@ function switchPage(page) {
   if (page === 'settings') renderSettingsAccounts();
   if (page === 'levelcard') renderLevelCard();
   if (page === 'ranks') renderRanks();
+  if (page === 'hstmtf') renderMTF();
 }
 
 // ===== CHAT =====
