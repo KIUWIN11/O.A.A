@@ -1,10 +1,10 @@
-# Silent-extermination-and-killing [SE.AK] a detention area [SCP-foundation]
+# Silent-extermination-and-killing [S-E-A-K] a detention area [SCP-foundation]
 ____________________________________________
-[SE.AK] > [HSTMTF] > [ET] [AS] [CF] [LS] [SE] 
+[S-E-A-K] > [HSTMTF] > [ET] [AS] [CF] [LS] [SE] 
 
-[SE.AK] > [C.F.19] > [AP] [AE] 
+[S-E-A-K] > [C.F.19] > [AP] [AE] 
 
-[SE.AK] > [C.F.19] > [NF] 
+[S-E-A-K] > [C.F.19] > [NF] 
 ____________________________________________
 
 [ET: Eliminating tornadoes]
