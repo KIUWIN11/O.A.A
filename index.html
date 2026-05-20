@@ -230,10 +230,12 @@
     width: 100%;
     max-width: 100vw;
     overflow: hidden;
+    transform: translateY(0);
+    transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
   }
 
   #top-header.hidden {
-    display: none;
+    transform: translateY(-100%);
   }
 
   .header-left {
@@ -325,10 +327,12 @@
     width: 100%;
     max-width: 100vw;
     overflow: hidden;
+    transform: translateY(0);
+    transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
   }
 
   #bottom-nav.hidden {
-    display: none;
+    transform: translateY(100%);
   }
 
   .nav-item {
@@ -348,6 +352,14 @@
     color: #808080;
     text-transform: uppercase;
     min-width: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s, background 0.15s;
+  }
+
+  .nav-item.nav-in {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .nav-item.active {
@@ -382,10 +394,14 @@
     max-width: 100%;
     border-radius: 8px;
     cursor: pointer;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.38s ease, transform 0.38s ease, border-color 0.2s;
   }
 
   .entity-card.visible {
     opacity: 1;
+    transform: translateY(0);
   }
 
   .entity-card::before {
@@ -518,9 +534,15 @@
     text-transform: uppercase;
     margin-bottom: 16px;
     width: 100%;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
   }
 
-  .add-entity-btn.visible { opacity: 1; }
+  .add-entity-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   /* SECTION TITLE */
   .section-title {
@@ -533,10 +555,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    opacity: 1;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
   }
 
-  .section-title.visible { opacity: 1; }
+  .section-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   .section-title::after {
     content: '';
@@ -819,9 +846,15 @@
     overflow: hidden;
     border-radius: 8px;
     width: 100%;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
   }
 
-  .profile-header.visible { opacity: 1; }
+  .profile-header.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   .profile-header::before {
     content: '';
@@ -2149,6 +2182,7 @@ function enterApp() {
   updateUserUI();
   renderEntities();
   triggerAnimations();
+  setTimeout(animateNavItems, 150);
 }
 
 // ===== USER UI =====
@@ -2782,9 +2816,19 @@ function triggerAnimations() {
   const items = document.querySelectorAll('.entity-card, .section-title, .add-entity-btn, .profile-header');
   items.forEach(el => {
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 60) {
+    if (rect.bottom < -40) {
+      // Scrolled completely above viewport — reset so it animates again on scroll back up
+      el.classList.remove('visible');
+    } else if (rect.top < window.innerHeight - 50) {
       el.classList.add('visible');
     }
+  });
+}
+
+function animateNavItems() {
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.remove('nav-in');
+    setTimeout(() => el.classList.add('nav-in'), 60 + i * 70);
   });
 }
 
@@ -2843,6 +2887,7 @@ function switchPage(page) {
 
   window.scrollTo(0, 0);
   setTimeout(triggerAnimations, 100);
+  setTimeout(animateNavItems, 80);
 
   if (page === 'profile') updateUserUI();
   if (page === 'chat') { closeChatThread(); searchAgents(''); }
