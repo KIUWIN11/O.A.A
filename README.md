@@ -74,5 +74,11 @@ If you've made it this far, you're quite brave, but it's best you leave; we don'
 ____________________________________________
 The above notes are only for those without authority or power; if the person viewing this is an employee within the organization or a higher-ranking person, then they are permitted to do so
 ____________________________________________
-[Signed by: Azurit]
-[silent-NF: filer]
+# The captured entities are held captive in an area that no one can find, and no one knows where it is located
+If anyone were to find out and leak that information, the organization would arrest and kill that person
+____________________________________________
+# Organizational information is only known to employees within the organization and senior management
+The name you are reading belongs to a profiler of the organization who posted it to inform members of the organization that
+____________________________________________
+> [Signed by: Azurit]
+> [silent-NF: filer]
