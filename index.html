@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azurit | Personal Space</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons for clean minimalist design -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Porky's Font CDN -->
+  <link href="https://fonts.cdnfonts.com/css/porkys" rel="stylesheet">
+
+  <style>
+    :root {
+      --txn-scale: 1.05;
+      --flip-width: 250px;
+      --cell: calc(100% + 1rem);
+      --accent: #a855f7;
+    }
+
+    body {
+      font-family: "Porky's", "Porkys", sans-serif;
+      background-color: #03020a;
+      color: #f3f4f6;
+      overflow-x: hidden;
+      position: relative;
+      letter-spacing: 0.05em;
+    }
+
+    /* Showcase Section - Balanced layout for all devices */
+    .showcase {
+      min-height: 100dvh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    /* Brand Header */
+    .showcase_brand { 
+      font-size: 1.1rem; 
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: linear-gradient(to right, #c084fc, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Social Grid Container */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+    }
+
+    /* Desktop Hover Logic */
+    @media (min-width: 1024px) {
+      .social-grid:not(:hover) .social-grid_card:not(.social-grid_hub) {
+        opacity: 0;
+        transform: translate(
+          calc(-1 * var(--slot-x) * var(--cell)), 
+          calc(-1 * var(--slot-y) * var(--cell))
+        ) scale(0.35);
+        pointer-events: none;
+      }
+    }
+
+    /* Card styling */
+    .social-grid_card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      background: rgba(15, 12, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.5rem;
+      z-index: 5;
+      cursor: pointer;
+    }
+
+    /* Hover effects for interactive cards */
+    .social-grid_card:not(.card-empty):hover {
+      transform: scale(1.05);
+      border-color: var(--accent);
+      box-shadow:
+        0 0 0 2px var(--accent),
+        0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+      z-index: 15;
+    }
+
+    /* Center Hub Design */
+    .social-grid_hub {
+      grid-column: 2;
+      grid-row: 2;
+      background: rgba(22, 15, 45, 0.95);
+      border: 2px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+      z-index: 10;
+    }
+
+    /* Ambient background glow */
+    .bg-glow {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Social Accent Colors */
+    .card-tiktok { --accent: #00f2fe; }
+    .card-telegram { --accent: #38bdf8; }
+    .card-discord { --accent: #6366f1; }
+    .card-roblox { --accent: #f87171; }
+    .card-caelus { --accent: #f59e0b; }
+    .card-empty { --accent: #374151; cursor: default; }
+
+    /* Breathing text animation for Hub */
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.3)); }
+      50% { transform: scale(1.03); filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
+    }
+    .breathing-hub-text {
+      animation: subtlePulse 4s ease-in-out infinite;
+    }
+
+    /* Modal Background Blur overlay */
+    .modal-backdrop {
+      background: rgba(3, 2, 10, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="bg-glow"></div>
+
+  <!-- Main Showcase Container -->
+  <main class="showcase w-full">
+    
+    <!-- Header Block -->
+    <header class="text-center flex flex-col items-center mb-2">
+      <div class="showcase_brand mb-1">AZURIT</div>
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+        My Social Nexus
+      </h1>
+      <p class="text-gray-400 text-xs mt-1 max-w-xs">
+        Select a card to view link options.
+      </p>
+    </header>
+
+    <!-- Symmetrical Social Grid -->
+    <div class="social-grid" id="mainGrid">
+      
+      <!-- Card 1: TikTok 1 (AzuritUnit|tornado) -->
+      <div onclick="openMenu('TikTok 1', 'AzuritUnit|tornado', 'https://tiktok.com/@kiu_tv1', 'fa-brands fa-tiktok', 'text-cyan-400')" 
+           class="social-grid_card card-tiktok" style="--slot-x: -1; --slot-y: -1; grid-column: 1; grid-row: 1;">
+        <div class="text-cyan-400 text-lg mb-1"><i class="fa-brands fa-tiktok"></i></div>
+        <span class="text-[9px] font-bold text-cyan-400 uppercase tracking-wider">TikTok 1</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5 truncate max-w-full">kiu_tv1</div>
+        <span class="text-[8px] text-gray-500 mt-0.5 uppercase tracking-widest">AzuritUnit</span>
+      </div>
+
+      <!-- Card 2: TikTok 2 (Azurit [O.A.A]) -->
+      <div onclick="openMenu('TikTok 2', 'Azurit [O.A.A]', 'https://tiktok.com/@azurit.se.ak', 'fa-brands fa-tiktok', 'text-pink-400')" 
+           class="social-grid_card card-tiktok" style="--slot-x: 0; --slot-y: -1; grid-column: 2; grid-row: 1;">
+        <div class="text-pink-400 text-lg mb-1"><i class="fa-brands fa-tiktok"></i></div>
+        <span class="text-[9px] font-bold text-pink-400 uppercase tracking-wider">TikTok 2</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5 truncate max-w-full">azurit.se.ak</div>
+        <span class="text-[8px] text-gray-500 mt-0.5 uppercase tracking-widest">O.A.A</span>
+      </div>
+
+      <!-- Card 3: Telegram (@Nolotl) -->
+      <div onclick="openMenu('Telegram', '@Nolotl', 'https://t.me/Nolotl', 'fa-brands fa-telegram', 'text-sky-400')" 
+           class="social-grid_card card-telegram" style="--slot-x: 1; --slot-y: -1; grid-column: 3; grid-row: 1;">
+        <div class="text-sky-400 text-lg mb-1"><i class="fa-brands fa-telegram"></i></div>
+        <span class="text-[9px] font-bold text-sky-400 uppercase tracking-wider">Telegram</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5 truncate max-w-full">@Nolotl</div>
+        <span class="text-[8px] text-gray-500 mt-0.5 uppercase tracking-widest">Chat</span>
+      </div>
+
+      <!-- Card 4: Roblox Account 1 (@qpf4q3) -->
+      <div onclick="openMenu('Roblox 1', 'KiuGnarpy (@qpf4q3)', 'https://www.roblox.com/users/profile?username=qpf4q3', 'fa-solid fa-gamepad', 'text-red-400')" 
+           class="social-grid_card card-roblox" style="--slot-x: -1; --slot-y: 0; grid-column: 1; grid-row: 2;">
+        <div class="text-red-400 text-lg mb-1"><i class="fa-solid fa-gamepad"></i></div>
+        <span class="text-[9px] font-bold text-red-400 uppercase tracking-wider">Roblox 1</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5">KiuGnarpy</div>
+        <span class="text-[8px] text-gray-500">@qpf4q3</span>
+      </div>
+
+      <!-- Center Core Hub -->
+      <div class="social-grid_card social-grid_hub p-2 select-none" style="--slot-x: 0; --slot-y: 0;">
+        <div class="relative flex flex-col items-center justify-center breathing-hub-text">
+          <div class="absolute -inset-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur opacity-40"></div>
+          <div class="relative w-10 h-10 rounded-full bg-gray-950 border border-purple-500 flex items-center justify-center">
+            <span class="text-sm font-black text-purple-400">AZ</span>
+          </div>
+          <span class="text-[10px] font-extrabold text-white mt-1.5 tracking-wider">AZURIT</span>
+        </div>
+      </div>
+
+      <!-- Card 6: Roblox Account 2 (@qpfll9q2) -->
+      <div onclick="openMenu('Roblox 2', 'blueday_ (@qpfll9q2)', 'https://www.roblox.com/users/profile?username=qpfll9q2', 'fa-solid fa-cube', 'text-red-400')" 
+           class="social-grid_card card-roblox" style="--slot-x: 1; --slot-y: 0; grid-column: 3; grid-row: 2;">
+        <div class="text-red-400 text-lg mb-1"><i class="fa-solid fa-cube"></i></div>
+        <span class="text-[9px] font-bold text-red-400 uppercase tracking-wider">Roblox 2</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5">blueday_</div>
+        <span class="text-[8px] text-gray-500">@qpfll9q2</span>
+      </div>
+
+      <!-- Card 7: Discord -->
+      <div onclick="openMenu('Discord', 'dUwSZS5kW', 'https://discord.gg/dUwSZS5kW', 'fa-brands fa-discord', 'text-indigo-400')" 
+           class="social-grid_card card-discord" style="--slot-x: -1; --slot-y: 1; grid-column: 1; grid-row: 3;">
+        <div class="text-indigo-400 text-lg mb-1"><i class="fa-brands fa-discord"></i></div>
+        <span class="text-[9px] font-bold text-indigo-400 uppercase tracking-wider">Discord</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5">Join Server</div>
+        <span class="text-[8px] text-gray-500 mt-0.5 uppercase tracking-widest">dUwSZS5kW</span>
+      </div>
+
+      <!-- Card 8: NOT (Empty / Muted Slot) -->
+      <div class="social-grid_card card-empty opacity-30 cursor-default select-none" style="--slot-x: 0; --slot-y: 1; grid-column: 2; grid-row: 3;">
+        <span class="text-[9px] font-bold text-gray-600 uppercase tracking-wider">Empty</span>
+        <div class="text-[12px] font-black text-gray-500 mt-1">NOT</div>
+        <span class="text-[8px] text-gray-700 mt-0.5 uppercase tracking-widest">Offline</span>
+      </div>
+
+      <!-- Card 9: Caelus (Changed display text and function parameter to 'Roblox Old') -->
+      <div onclick="openMenu('Caelus', 'Roblox Old', 'https://www.caelus.lol/users/13198/profile', 'fa-solid fa-link', 'text-amber-400')" 
+           class="social-grid_card card-caelus" style="--slot-x: 1; --slot-y: 1; grid-column: 3; grid-row: 3;">
+        <div class="text-amber-400 text-lg mb-1"><i class="fa-solid fa-link"></i></div>
+        <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider">Caelus</span>
+        <div class="text-[10px] font-extrabold text-white mt-0.5">Roblox Old</div>
+        <span class="text-[8px] text-gray-500 mt-0.5 uppercase tracking-widest">Caelus.lol</span>
+      </div>
+
+    </div>
+
+    <!-- Minimal Toast Notification -->
+    <div id="customToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900/95 text-white px-5 py-2.5 rounded-full border border-purple-500/30 text-xs font-semibold shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300 z-50">
+      <span id="toastMessage">Link copied.</span>
+    </div>
+
+    <!-- Interactive Small Popover Menu Modal -->
+    <div id="linkModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop transition-opacity duration-300">
+      <div class="bg-[#0f0c1e] border border-purple-500/30 w-full max-w-[280px] rounded-2xl p-5 text-center shadow-2xl transform scale-95 transition-transform duration-300 relative">
+        
+        <!-- Platform Icon (Minimal) -->
+        <div id="modalIconContainer" class="w-12 h-12 rounded-full bg-gray-950 border border-purple-500/20 flex items-center justify-center mx-auto mb-3">
+          <i id="modalIcon" class="text-xl"></i>
+        </div>
+
+        <!-- Header -->
+        <h3 id="modalPlatform" class="text-xs uppercase tracking-widest text-gray-400 font-bold">Platform</h3>
+        <h2 id="modalHandle" class="text-base font-extrabold text-white mt-1 mb-2 truncate px-2">Username</h2>
+        
+        <!-- Link Preview Box -->
+        <div class="bg-gray-950/80 rounded-lg p-2.5 mb-4 border border-white/5 select-all">
+          <p id="modalUrl" class="text-[10px] text-purple-300/95 font-mono break-all leading-normal">https://link-here.com</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-2">
+          <a id="modalGoBtn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-1.5">
+            <span>Open Link</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+          </a>
+          <button id="modalCopyBtn" class="w-full py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg text-xs font-bold transition-all border border-white/10 flex items-center justify-center gap-1.5">
+            <span>Copy Link</span>
+            <i class="fa-solid fa-copy text-[9px]"></i>
+          </button>
+          <button onclick="closeMenu()" class="w-full py-2 mt-1 text-[10px] text-gray-500 hover:text-gray-400 font-semibold tracking-wider uppercase">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer class="text-center w-full max-w-sm mt-4">
+      <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-purple-500/15 to-transparent mb-2"></div>
+      <p class="text-[10px] text-gray-500 tracking-widest uppercase font-semibold">
+        Azurit © 2026
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    const mainGrid = document.getElementById('mainGrid');
+    const customToast = document.getElementById('customToast');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // Popover elements
+    const linkModal = document.getElementById('linkModal');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalIconContainer = document.getElementById('modalIconContainer');
+    const modalPlatform = document.getElementById('modalPlatform');
+    const modalHandle = document.getElementById('modalHandle');
+    const modalUrl = document.getElementById('modalUrl');
+    const modalGoBtn = document.getElementById('modalGoBtn');
+    const modalCopyBtn = document.getElementById('modalCopyBtn');
+
+    let currentUrl = '';
+
+    // Open Small Link Menu
+    function openMenu(platform, handle, url, iconClass, colorClass) {
+      currentUrl = url;
+      modalPlatform.innerText = platform;
+      modalHandle.innerText = handle;
+      modalUrl.innerText = url.replace('https://', '').replace('www.', '');
+      modalGoBtn.href = url;
+      
+      // Update icons cleanly
+      modalIcon.className = iconClass + ' ' + colorClass;
+      modalIconContainer.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+
+      // Show modal
+      linkModal.classList.remove('hidden');
+      setTimeout(() => {
+        linkModal.firstElementChild.classList.remove('scale-95');
+        linkModal.firstElementChild.classList.add('scale-100');
+      }, 10);
+    }
+
+    // Close Menu
+    function closeMenu() {
+      linkModal.firstElementChild.classList.remove('scale-100');
+      linkModal.firstElementChild.classList.add('scale-95');
+      setTimeout(() => {
+        linkModal.classList.add('hidden');
+      }, 150);
+    }
+
+    // Close on click outside modal content
+    linkModal.addEventListener('click', (e) => {
+      if (e.target === linkModal) {
+        closeMenu();
+      }
+    });
+
+    // Copy action in Modal
+    modalCopyBtn.addEventListener('click', () => {
+      copyToClipboard(currentUrl);
+      showToast("Link copied to clipboard.");
+    });
+
+    // Show toast notice
+    function showToast(message) {
+      toastMessage.innerText = message;
+      customToast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+      customToast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        customToast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        customToast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2500);
+    }
+
+    // Dynamic Copy to Clipboard Helper
+    function copyToClipboard(text) {
+      const tempInput = document.createElement("input");
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        console.error("Unable to copy", err);
+      }
+      document.body.removeChild(tempInput);
+    }
+  </script>
+</body>
+</html>
